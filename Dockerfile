@@ -1,13 +1,16 @@
 FROM ruby:2.7
 
+RUN mkdir /app
 WORKDIR /app
 
-COPY Gemfile Gemfile.lock ./
+COPY Gemfile /app/Gemfile
+COPY Gemfile.lock /app/Gemfile.lock
+COPY vendor /app/vendor
 
-RUN bundle install --path=vendor/cache
+RUN bundle install --local
 
-COPY . .
+COPY . /app
 
 EXPOSE 3000
 
-CMD rails server -b 0.0.0.0
+CMD bundle exec puma -C config/puma.rb
