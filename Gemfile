@@ -17,6 +17,7 @@ gem 'redis-namespace', '~> 1.7'
 gem 'redis-rails', '~> 5.0.2'
 gem 'rubocop', '~> 0.82.0'
 gem 'sidekiq', '~> 6.0.4'
+gem 'simple_command', '~> 0.1.0'
 gem 'webpacker', '~> 4.0'
 
 group :development, :test do

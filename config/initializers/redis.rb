@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-redis_connection = Redis.new(url: ENV['SWAPP_REDIS_URL'])
+redis_url = ENV.fetch('SWAPP_REDIS_URL')
+redis_connection = Redis.new(url: redis_url)
 
 if redis_connection.ping == 'PONG'
   $swapp_namespace = Redis::Namespace.new(:swapp, redis: redis_connection)
