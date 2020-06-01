@@ -1,11 +1,11 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  database: <%= ENV['HERMPORIO_DATABASE_NAME'] %>
-  username: <%= ENV['HERMPORIO_DATABASE_USERNAME'] %>
-  password: <%= ENV['HERMPORIO_DATABASE_PASSWORD'] %>
-  host: <%= ENV['HERMPORIO_DATABASE_HOST'] %>
-  pool: <%= ENV['HERMPORIO_DATABASE_POOL'] %>
+  database: <%= ENV['SWAPP_DATABASE_NAME'] %>
+  username: <%= ENV['SWAPP_DATABASE_USERNAME'] %>
+  password: <%= ENV['SWAPP_DATABASE_PASSWORD'] %>
+  host: <%= ENV['SWAPP_DATABASE_HOST'] %>
+  pool: <%= ENV['SWAPP_DATABASE_POOL'] %>
   timeout: 5000
 
 development:
@@ -13,7 +13,7 @@ development:
 
 test:
   <<: *default
-  database: hermporio_api_test
+  database: swapp_api_test
 
 production:
   <<: *default

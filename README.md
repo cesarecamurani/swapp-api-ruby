@@ -1,3 +1,3 @@
-# hermporio-api-ruby
+# swapp-api-ruby
 
-Ruby API for Hermporio Application
+Ruby API for SwApp Application

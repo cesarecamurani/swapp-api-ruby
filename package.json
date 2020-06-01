@@ -1,5 +1,5 @@
 {
-  "name": "hermporio_api_ruby",
+  "name": "swapp_api_ruby",
   "private": true,
   "dependencies": {
     "@rails/actioncable": "^6.0.0",
