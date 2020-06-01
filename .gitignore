@@ -9,6 +9,7 @@
 .env
 redis.conf
 dump.rdb
+.DS_Store
 /vendor/cache/
 # Ignore the default SQLite database.
 /db/*.sqlite3
