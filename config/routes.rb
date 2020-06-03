@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
-  post '/login', to: 'authentication#login'
-  post '/logout', to: 'authentication#logout'
+  post '/auth/login', to: 'authentication#login'
+  post '/auth/logout', to: 'authentication#logout'
+
+  resources :users, only: %i[show create update]
 end

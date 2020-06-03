@@ -4,19 +4,30 @@ class AuthenticationController < ApplicationController
   skip_before_action :authenticate_request
  
   def login
-    auth_request = AuthenticateUser.call(
-      email: params[:email], 
-      password: params[:password]
-    )
- 
-    if auth_request.success?
-      render json: { auth_token: auth_request.result }
-    else
-      render json: { error: auth_request.errors }, status: :unauthorized
+    user = User.find_by(email: params[:email])
+    
+    unless user&.authenticate(params[:password])
+      user.errors.add :user_authentication, 'Invalid credentials'
+      return render json: { error: user.errors }, status: :unauthorized
     end
+
+    unless (auth_token = JsonWebToken.encode(payload: { user_id: user.id }))
+      raise Error::UnauthorizedError
+    end
+
+    render json: auth_response(auth_token, user.id), status: :ok
   end
 
   def logout
-    
+    invalidate_token
+    render json: { message: 'You\'ve been logged out' }, status: :ok
+  end
+
+  private
+
+  def invalidate_token
+    decoded_token = JsonWebToken.decode(token: token)
+    TokenBlacklist.invalidate(token: token, user_id: decoded_token[:user_id])
+    UserToken.invalidate(user_id: decoded_token[:user_id])
   end
 end
