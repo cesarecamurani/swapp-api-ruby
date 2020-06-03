@@ -6,7 +6,7 @@ module Error
       klass.class_eval do
         rescue_from StandardError do |error|
           log_error(error)
-          respond(:standard_error, 500, error.to_s)
+          respond(:internal_server_error, 500, error.to_s)
         end
 
         rescue_from UnauthorizedError do |error|
@@ -21,7 +21,7 @@ module Error
 
         rescue_from ActiveRecord::RecordNotFound do |error|
           log_error(error)
-          respond(:record_not_found, 404, error.to_s)
+          respond(:not_found, 404, error.to_s)
         end
 
         rescue_from ActiveRecord::RecordInvalid do |error|

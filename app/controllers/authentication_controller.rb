@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class AuthenticationController < ApplicationController
-  skip_before_action :authenticate_request
+  skip_before_action :authorize_request
  
   def login
     user = User.find_by(email: params[:email])
     
     unless user&.authenticate(params[:password])
-      user.errors.add :user_authentication, 'Invalid credentials'
-      return render json: { error: user.errors }, status: :unauthorized
+      error = { user_authentication: 'Invalid credentials' }
+      return render json: { error: error }, status: :unauthorized
     end
 
     unless (auth_token = JsonWebToken.encode(payload: { user_id: user.id }))

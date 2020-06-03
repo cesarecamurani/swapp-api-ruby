@@ -2,7 +2,7 @@
 
 class TokenBlacklist
   class << self
-    def lists?(token:)
+    def list_includes?(token:)
       !$swapp_namespace.get(token).nil?
     end
 

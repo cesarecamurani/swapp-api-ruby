@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   include Error::ErrorHandler
 
   skip_before_action :verify_authenticity_token
-  before_action :authenticate_request
+  before_action :authorize_request
   
   attr_reader :current_user
 
@@ -26,8 +26,8 @@ class ApplicationController < ActionController::Base
     }
   end
 
-  def authenticate_request
-    raise Error::UnauthorizedError if TokenBlacklist.lists?(token: token)
+  def authorize_request
+    raise Error::UnauthorizedError if TokenBlacklist.list_includes?(token: token)
 
     decoded = JsonWebToken.decode(token: token)
     
@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
 
   def present(object, **options)
     serializer = options[:serializer].presence
-    
+
     return render json: object, status: options[:status] if serializer.nil?
 
     response = if object.is_a?(Array)
@@ -47,6 +47,6 @@ class ApplicationController < ActionController::Base
                  serializer.constantize.new(object)
                end
 
-    render json: { data: response }, status: options[:status]
+    render json: response, status: options[:status]
   end
 end
