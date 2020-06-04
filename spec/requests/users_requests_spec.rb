@@ -31,7 +31,10 @@ RSpec.describe 'Users', type: 'request' do
         it 'returns an unauthorized error' do
           get "/users/#{user.id}"
 
+          message = JSON.parse(response.body)['message']
+
           expect(response).to have_http_status(:unauthorized)
+          expect(message).to eq('Invalid or missing token')
         end
       end
 
@@ -133,7 +136,10 @@ RSpec.describe 'Users', type: 'request' do
         it 'returns an unauthorized error' do
           patch "/users/#{user.id}", params: user_params
           
+          message = JSON.parse(response.body)['message']
+
           expect(response).to have_http_status(:unauthorized)
+          expect(message).to eq('Invalid or missing token')
         end
       end
 
@@ -161,7 +167,10 @@ RSpec.describe 'Users', type: 'request' do
         it 'returns an unauthorized error' do
           delete "/users/#{user.id}"
 
+          message = JSON.parse(response.body)['message']
+
           expect(response).to have_http_status(:unauthorized)
+          expect(message).to eq('Invalid or missing token')
         end
       end
 

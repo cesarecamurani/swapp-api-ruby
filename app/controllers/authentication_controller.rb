@@ -7,12 +7,11 @@ class AuthenticationController < ApplicationController
     user = User.find_by(email: params[:email])
     
     unless user&.authenticate(params[:password])
-      error = { user_authentication: 'Invalid credentials' }
-      return render json: { error: error }, status: :unauthorized
+      raise_unauthorized_with('Invalid credentials')
     end
 
     unless (auth_token = JsonWebToken.encode(payload: { user_id: user.id }))
-      raise Error::UnauthorizedError
+      raise_unauthorized_with('Invalid or missing token')
     end
 
     render json: auth_response(auth_token, user.id), status: :ok
@@ -27,8 +26,9 @@ class AuthenticationController < ApplicationController
   private
 
   def invalidate_token
-    decoded_token = JsonWebToken.decode(token: token)
-    TokenBlacklist.invalidate(token: token, user_id: decoded_token[:user_id])
-    UserToken.invalidate(user_id: decoded_token[:user_id])
+    raise_unauthorized_with('Invalid or missing token') unless valid_token? 
+
+    TokenBlacklist.invalidate(token: auth_token, user_id: auth_token&.user_id)
+    UserToken.invalidate(user_id: auth_token&.user_id)
   end
 end

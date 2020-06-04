@@ -10,12 +10,33 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def auth_headers
-    request.headers['Authorization']
+  def http_token
+    return unless request.headers['Authorization'].present?
+    @http_token ||= request.headers['Authorization'].split(' ').last
   end
 
-  def token
-    auth_headers&.split(' ')&.last
+  def auth_token
+    @auth_token ||= OpenStruct.new(
+      JsonWebToken.decode(token: http_token)
+    )
+  end
+
+  def valid_token?
+    http_token && auth_token&.user_id
+  end
+
+  def authorize_request
+    if TokenBlacklist.includes?(token: auth_token)
+      raise_unauthorized_with('This token has been revoked')
+    end
+    
+    unless valid_token?
+      raise_unauthorized_with('Invalid or missing token')
+    end
+    
+    unless (@current_user ||= User.find_by(id: auth_token&.user_id))
+      raise_unauthorized_with('No user was found for this token')
+    end
   end
 
   def auth_response(token, user_id)
@@ -26,16 +47,10 @@ class ApplicationController < ActionController::Base
     }
   end
 
-  def authorize_request
-    raise Error::UnauthorizedError if TokenBlacklist.list_includes?(token: token)
-
-    decoded = OpenStruct.new(JsonWebToken.decode(token: token))
-
-    @current_user ||= User.find_by(id: decoded&.user_id)
-
-    raise Error::UnauthorizedError unless @current_user
+  def raise_unauthorized_with(message)
+    raise Error::UnauthorizedError.new(message: message)
   end
-
+  
   def present(object, **options)
     serializer = options[:serializer].presence
 
