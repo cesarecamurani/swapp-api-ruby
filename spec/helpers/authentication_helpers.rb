@@ -15,4 +15,3 @@ module AuthenticationHelpers
     )
   end
 end
-
