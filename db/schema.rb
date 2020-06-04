@@ -10,11 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_03_154351) do
+ActiveRecord::Schema.define(version: 2020_06_04_164502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+  enable_extension "uuid-ossp"
+
+  create_table "swappers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "surname"
+    t.string "email"
+    t.string "date_of_birth"
+    t.string "phone_number"
+    t.string "city"
+    t.string "country"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.uuid "user_id", null: false
+    t.string "address"
+    t.index ["user_id"], name: "index_swappers_on_user_id", unique: true
+  end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email"
@@ -24,4 +40,5 @@ ActiveRecord::Schema.define(version: 2020_06_03_154351) do
     t.string "username"
   end
 
+  add_foreign_key "swappers", "users"
 end
