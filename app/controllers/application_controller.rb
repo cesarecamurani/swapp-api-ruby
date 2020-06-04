@@ -29,9 +29,9 @@ class ApplicationController < ActionController::Base
   def authorize_request
     raise Error::UnauthorizedError if TokenBlacklist.list_includes?(token: token)
 
-    decoded = JsonWebToken.decode(token: token)
-    
-    @current_user ||= User.find_by(id: decoded[:user_id])
+    decoded = OpenStruct.new(JsonWebToken.decode(token: token))
+
+    @current_user ||= User.find_by(id: decoded&.user_id)
 
     raise Error::UnauthorizedError unless @current_user
   end

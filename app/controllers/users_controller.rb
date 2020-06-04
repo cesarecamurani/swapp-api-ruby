@@ -2,7 +2,7 @@
 
 class UsersController < ApplicationController
   before_action :find_user, only: %i[show update destroy]
-  skip_before_action :authenticate_request, only: :create
+  skip_before_action :authorize_request, only: :create
 
   def show
     present @user
@@ -10,7 +10,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    present @user if @user.save!
+    present @user, status: :created if @user.save!
   end
 
   def update

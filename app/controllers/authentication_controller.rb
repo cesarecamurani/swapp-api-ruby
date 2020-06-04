@@ -20,7 +20,8 @@ class AuthenticationController < ApplicationController
 
   def logout
     invalidate_token
-    render json: { message: 'You\'ve been logged out' }, status: :ok
+    message = { message: 'You\'ve been logged out' }
+    render json: message, status: :ok
   end
 
   private
