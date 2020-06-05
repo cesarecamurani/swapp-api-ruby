@@ -62,6 +62,6 @@ class ApplicationController < ActionController::Base
                  serializer.constantize.new(object)
                end
 
-    render json: response, status: options[:status]
+    render json: { object: response }, status: options[:status]
   end
 end
