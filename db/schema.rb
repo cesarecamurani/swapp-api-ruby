@@ -10,12 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_04_164502) do
+ActiveRecord::Schema.define(version: 2020_06_05_160313) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
+
+  create_table "products", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "category"
+    t.string "title"
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.uuid "swapper_id"
+    t.index ["swapper_id"], name: "index_products_on_swapper_id"
+  end
 
   create_table "swappers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
@@ -40,5 +50,6 @@ ActiveRecord::Schema.define(version: 2020_06_04_164502) do
     t.string "username"
   end
 
+  add_foreign_key "products", "swappers"
   add_foreign_key "swappers", "users"
 end
