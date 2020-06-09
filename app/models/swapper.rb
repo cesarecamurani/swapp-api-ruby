@@ -3,6 +3,7 @@
 class Swapper < ApplicationRecord
   belongs_to :user
   has_many :products
+  has_one_attached :avatar
 
   validates :name,
             :surname,

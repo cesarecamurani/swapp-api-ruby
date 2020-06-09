@@ -7,7 +7,6 @@ RSpec.describe 'Products', type: 'request' do
   let(:user) { FactoryBot.create(:user) } 
   let(:swapper) { FactoryBot.create(:swapper, user_id: user.id) }
   let(:item) { FactoryBot.create(:item, swapper_id: swapper.id) }
-  # let(:service) { FactoryBot.create(:service, swapper_id: swapper.id) }
   let(:wrong_id) { 'WRONG_ID' }
 
   describe 'GET index' do
@@ -20,10 +19,35 @@ RSpec.describe 'Products', type: 'request' do
         FactoryBot.create(:service, swapper_id: swapper.id)
       end
       
-      it 'returns a list of products' do
-        get '/products/', headers: headers
+      context 'without scopes' do
+        it 'returns a list of products' do
+          expect(Product).not_to receive(:by_swapper)
+          expect(Product).not_to receive(:by_category)
 
-        expect(response).to have_http_status(:ok)
+          get '/products/', headers: headers
+
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context 'scoped by swapper id' do
+        it 'returns a list of products scoped by swapper id' do
+          expect(Product).to receive(:by_swapper).with(swapper.id)
+          
+          get '/products/', params: { swapper_id: swapper.id }, headers: headers
+
+          expect(response).to have_http_status(:ok) 
+        end
+      end
+
+      context 'scoped by category' do
+        it 'returns a list of products scoped by category' do
+          expect(Product).to receive(:by_category).with(item.category)
+          
+          get '/products/', params: { category: item.category }, headers: headers
+   
+          expect(response).to have_http_status(:ok) 
+        end
       end
     end
 

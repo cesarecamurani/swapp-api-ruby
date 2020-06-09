@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ProductsController < ApplicationController
-  before_action :find_product, only: %i[show update destroy]
+  before_action :find_product, only: %i[show update destroy upload_images]
 
   def index
     @products = if (swapper_id = params[:swapper_id].presence)
@@ -33,6 +33,11 @@ class ProductsController < ApplicationController
     head :no_content
   end
 
+  def upload_images
+    binding.pry
+    @product.images.attach(params[:images])
+  end
+
   private
 
   def find_product
@@ -49,7 +54,8 @@ class ProductsController < ApplicationController
       :category,
       :title,
       :description,
-      :swapper_id
+      :swapper_id,
+      images: [] 
     )
   end 
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SwappersController < ApplicationController
-  before_action :find_swapper, only: %i[show update destroy]
+  before_action :find_swapper, only: %i[show update destroy upload_avatar]
 
   def index
     @swappers = Swapper.all.to_a
@@ -26,6 +26,10 @@ class SwappersController < ApplicationController
     head :no_content
   end
 
+  def upload_avatar
+    @swapper.avatar.attach(params[:avatar])
+  end
+
   private
 
   def find_swapper
@@ -47,6 +51,7 @@ class SwappersController < ApplicationController
       :address,
       :city,
       :country,
+      :avatar,
       :user_id
     )
   end 
