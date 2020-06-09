@@ -12,6 +12,7 @@ require 'rspec/rails'
 
 require_relative 'helpers/application_helpers'
 require_relative 'helpers/authentication_helpers'
+require_relative 'helpers/products_helpers'
 require_relative 'helpers/swappers_helpers'
 require_relative 'helpers/users_helpers'
 
@@ -82,6 +83,7 @@ RSpec.configure do |config|
   
   config.include ApplicationHelpers
   config.include AuthenticationHelpers
+  config.include ProductsHelpers
   config.include SwappersHelpers
   config.include UsersHelpers
 end
