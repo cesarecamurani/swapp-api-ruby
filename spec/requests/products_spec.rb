@@ -188,7 +188,7 @@ RSpec.describe 'Products', type: 'request' do
     end
   end
 
-  describe 'PUT upload_image' do
+  describe 'PUT upload_images' do
     context 'with successful response' do 
       it 'uploads the images for a product' do
         put "/products/#{item.id}/upload_images", 
@@ -212,7 +212,7 @@ RSpec.describe 'Products', type: 'request' do
     end
   end
 
-  describe 'GET remove_images' do
+  describe 'GET remove_image' do
     let(:upload_images_request) do
       put "/products/#{item.id}/upload_images", 
       params: { images: image },
