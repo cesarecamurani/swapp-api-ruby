@@ -4,7 +4,7 @@ require 'rails_helper'
 require 'spec_helper'
 
 RSpec.describe 'Users', type: 'request' do
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
   let(:wrong_id) { 'WRONG_ID' }
   
   describe 'GET show' do

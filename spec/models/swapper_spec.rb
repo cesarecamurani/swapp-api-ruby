@@ -4,7 +4,7 @@ require 'rails_helper'
 require 'spec_helper'
 
 RSpec.describe Swapper, type: :model do
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
   
   subject(:swapper) do 
     described_class.new(

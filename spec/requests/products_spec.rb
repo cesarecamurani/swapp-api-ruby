@@ -4,19 +4,19 @@ require 'rails_helper'
 require 'spec_helper'
 
 RSpec.describe 'Products', type: 'request' do
-  let(:user) { FactoryBot.create(:user) } 
-  let(:swapper) { FactoryBot.create(:swapper, user_id: user.id) }
-  let(:item) { FactoryBot.create(:item, swapper_id: swapper.id) }
+  let(:user) { create(:user) } 
+  let(:swapper) { create(:swapper, user_id: user.id) }
+  let(:item) { create(:item, swapper_id: swapper.id) }
   let(:wrong_id) { 'WRONG_ID' }
 
   describe 'GET index' do
     context 'with successful response' do
-      let(:second_user) { FactoryBot.create(:user, username: 'mariorossi', email: 'mariorossi@email.com') }
-      let(:second_swapper) { FactoryBot.create(:swapper, user_id: second_user.id) }
+      let(:second_user) { create(:user, username: 'mariorossi', email: 'mariorossi@email.com') }
+      let(:second_swapper) { create(:swapper, user_id: second_user.id) }
 
       before do
-        FactoryBot.create(:item, swapper_id: swapper.id)
-        FactoryBot.create(:service, swapper_id: swapper.id)
+        create(:item, swapper_id: swapper.id)
+        create(:service, swapper_id: swapper.id)
       end
       
       context 'without scopes' do
@@ -184,6 +184,61 @@ RSpec.describe 'Products', type: 'request' do
 
           expect(response).to have_http_status(:not_found)
         end
+      end
+    end
+  end
+
+  describe 'PUT upload_image' do
+    context 'with successful response' do 
+      it 'uploads the images for a product' do
+        put "/products/#{item.id}/upload_images", 
+        params: { images: image },
+        headers: headers
+
+        expect(response).to have_http_status(:ok)
+        expect(item.images).to be_attached
+        expect(item.images_blobs.first['filename']).to eq('image.jpg')
+      end
+    end
+
+    context 'with missing authentication token' do
+      it 'returns an unauthorized error' do
+        put "/products/#{item.id}/upload_images",
+        params: { images: image }
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(error_message).to eq('Invalid or missing token')
+      end
+    end
+  end
+
+  describe 'GET remove_images' do
+    let(:upload_images_request) do
+      put "/products/#{item.id}/upload_images", 
+      params: { images: image },
+      headers: headers
+    end
+
+    let(:image_id) { item.images_blobs.first['id'] }
+    
+    before { upload_images_request }
+    
+    context 'with successful response' do 
+      it 'removes the product\'s image' do
+        get "/products/#{item.id}/remove_image/#{image_id}", 
+        headers: headers
+
+        expect(response).to have_http_status(:no_content)
+        expect(item.images).not_to be_attached
+      end
+    end
+
+    context 'with missing authentication token' do
+      it 'returns an unauthorized error' do
+        get "/products/#{item.id}/remove_image/#{image_id}"
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(error_message).to eq('Invalid or missing token')
       end
     end
   end

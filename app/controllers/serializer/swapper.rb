@@ -12,6 +12,7 @@ module Serializer
       address
       city
       country
+      rating
       user_id
     ]
 

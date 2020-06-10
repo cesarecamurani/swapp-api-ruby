@@ -4,11 +4,11 @@ require 'rails_helper'
 require 'spec_helper'
 
 RSpec.describe Product, type: :model do
-  let(:user) { FactoryBot.create(:user) }
-  let(:swapper) { FactoryBot.create(:swapper, user_id: user.id) }
+  let(:user) { create(:user) }
+  let(:swapper) { create(:swapper, user_id: user.id) }
   
   let(:different_user) do
-    FactoryBot.create(
+    create(
       :user,
       username: 'mariorossi',
       email: 'mariorossi@email.com'
@@ -16,7 +16,7 @@ RSpec.describe Product, type: :model do
   end
 
   let(:different_swapper) do
-    FactoryBot.create(
+    create(
       :swapper, 
       user_id: different_user.id)
   end

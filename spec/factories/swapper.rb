@@ -11,6 +11,7 @@ FactoryBot.define do
     address { '6, Street' }
     city { 'London' }
     country { 'UK' }
+    rating { 'good' }
     user_id { SecureRandom.uuid }
   end
 end

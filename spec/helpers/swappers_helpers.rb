@@ -2,6 +2,18 @@
 
 module SwappersHelpers
 
+  def avatar
+    fixture_file_upload(
+      Rails.root.join(
+        'spec', 
+        'fixtures', 
+        'files', 
+        'avatar.jpg'
+      ),
+      'image/jpeg'
+    )
+  end
+
   def swapper_create_params
     {
       swapper: {
@@ -13,6 +25,7 @@ module SwappersHelpers
         address: '6, Street',
         city: 'Rome',
         country: 'Italy',
+        rating: nil,
         user_id: user.id
       }
     }
@@ -29,6 +42,7 @@ module SwappersHelpers
         address: '6, Street',
         city: 'Rome',
         country: 'Italy',
+        rating: 'good',
         user_id: user.id
       }
     }
@@ -45,6 +59,7 @@ module SwappersHelpers
         address: '6, Street',
         city: 'Rome',
         country: 'Italy',
+        rating: 'good',
         user_id: user.id
       }
     }
@@ -62,6 +77,7 @@ module SwappersHelpers
         'address' => '6, Street',
         'city' => 'London',
         'country' => 'UK',
+        'rating' => 'good',
         'user_id' => user.id
       }
     }
@@ -79,6 +95,7 @@ module SwappersHelpers
         'address' => '6, Street',
         'city' => 'Rome',
         'country' => 'Italy',
+        'rating' => nil,
         'user_id' => user.id
       }
     }
@@ -96,6 +113,7 @@ module SwappersHelpers
         'address' => '6, Street',
         'city' => 'Rome',
         'country' => 'Italy',
+        'rating' => 'good',
         'user_id' => user.id
       }
     }

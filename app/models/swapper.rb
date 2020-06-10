@@ -3,10 +3,19 @@
 class Swapper < ApplicationRecord
   belongs_to :user
   
-  has_many :products
+  has_many :products, dependent: :destroy
   has_one_attached :avatar
 
-  validate :accepted_avatar
+  ACCEPTED_IMAGE_TYPES = [
+    'application/pdf', 
+    'image/jpeg', 
+    'image/png'
+  ].freeze
+
+  validates :avatar, attached: true, 
+                     content_type: ACCEPTED_IMAGE_TYPES,
+                     dimension: { min: 500..200, max: 500..200 },
+                     on: :upload_avatar
   
   validates :name,
             :surname,
@@ -17,19 +26,12 @@ class Swapper < ApplicationRecord
             :city,
             :country, presence: true
 
-  enum rating: %w[excellent good mediocre poor terrible]
+  enum rating: %w[
+    excellent 
+    good 
+    mediocre 
+    poor 
+    terrible
+  ]
 
-  ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png'].freeze
-
-  def accepted_avatar
-    return unless avatar.attached?
-  
-    unless avatar.byte_size <= 10.megabyte
-      errors.add(:avatar, 'Image size is too big')
-    end
-  
-    unless ACCEPTED_IMAGE_TYPES.include?(avatar.content_type)
-      errors.add(:avatar, 'Image must be a JPEG or PNG type')
-    end
-  end
 end

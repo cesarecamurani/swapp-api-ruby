@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SwappersController < ApplicationController
-  before_action :find_swapper, only: %i[show update destroy upload_avatar]
+  before_action :find_swapper, only: %i[show update destroy upload_avatar remove_avatar]
 
   def index
     @swappers = Swapper.all.to_a
@@ -28,13 +28,18 @@ class SwappersController < ApplicationController
 
   def upload_avatar
     return unless params[:avatar].presence
-    @swapper.avatar.attach(params[:avatar])
+    head :ok if @swapper.avatar.attach(params[:avatar])
+  end
+
+  def remove_avatar
+    return unless @swapper.avatar.attached?
+    head :no_content if @swapper.avatar.attachment.purge
   end
 
   private
 
   def find_swapper
-    @swapper = Swapper.find_by(id: params[:id])
+    @swapper ||= Swapper.find_by(id: params[:id])
     head :not_found unless @swapper
   end
 
@@ -52,6 +57,7 @@ class SwappersController < ApplicationController
       :address,
       :city,
       :country,
+      :rating,
       :avatar,
       :user_id
     )

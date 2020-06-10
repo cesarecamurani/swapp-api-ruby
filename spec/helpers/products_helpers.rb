@@ -2,6 +2,18 @@
 
 module ProductsHelpers
 
+  def image
+    fixture_file_upload(
+      Rails.root.join(
+        'spec', 
+        'fixtures', 
+        'files', 
+        'image.jpg'
+      ),
+      'image/jpeg'
+    )
+  end
+
   def product_create_params
     {
       product: {
