@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 module Serializer
-  class Product
+  class SwappRequest
     ATTRIBUTES = %i[
       id
-      category
-      title
-      description
-      up_for_auction
+      status
       swapper_id
+      offered_product_id
+      requested_product_id
+      req_product_owner_id
     ]
 
     def initialize(object)

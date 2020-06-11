@@ -1,10 +1,16 @@
 # frozen_string_literal: true
 
 class SwappersController < ApplicationController
-  before_action :find_swapper, only: %i[show update destroy upload_avatar remove_avatar]
+  before_action :find_swappers, only: :index
+  before_action :find_swapper, only: %i[
+    show 
+    update 
+    destroy 
+    upload_avatar 
+    remove_avatar
+  ]
 
   def index
-    @swappers = Swapper.all.to_a
     present_swapper(@swappers, :ok)
   end
 
@@ -22,8 +28,7 @@ class SwappersController < ApplicationController
   end
 
   def destroy 
-    @swapper.destroy!
-    head :no_content
+    head :no_content if @swapper.destroy!
   end
 
   def upload_avatar
@@ -41,6 +46,41 @@ class SwappersController < ApplicationController
   def find_swapper
     @swapper ||= Swapper.find_by(id: params[:id])
     head :not_found unless @swapper
+  end
+
+  def find_swappers
+    @swappers = Swapper.all
+    @swappers = rating_scope(@swappers)
+    @swappers = name_scope(@swappers)
+    @swappers = surname_scope(@swappers)
+    @swappers = email_scope(@swappers)
+    @swappers = city_scope(@swappers)
+    @swappers = country_scope(@swappers)
+    @swappers = @swappers.to_a
+  end
+
+  def rating_scope(scope)
+    (rating = params[:rating].presence) ? scope.by_rating(rating) : scope
+  end
+
+  def name_scope(scope)
+    (name = params[:name].presence) ? scope.by_name(name) : scope
+  end
+
+  def surname_scope(scope)
+    (surname = params[:surname].presence) ? scope.by_surname(surname) : scope
+  end
+
+  def email_scope(scope)
+    (email = params[:email].presence) ? scope.by_email(email) : scope
+  end
+
+  def city_scope(scope)
+    (city = params[:city].presence) ? scope.by_city(city) : scope
+  end
+
+  def country_scope(scope)
+    (country = params[:country].presence) ? scope.by_country(country) : scope
   end
 
   def present_swapper(object, status)

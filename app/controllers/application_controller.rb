@@ -6,9 +6,13 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token
   before_action :authorize_request
   
-  attr_reader :current_user
+  attr_reader :current_user, :current_swapper
 
   private
+
+  def current_swapper
+    @current_swapper ||= @current_user.swapper
+  end
 
   def http_token
     return unless request.headers['Authorization'].present?

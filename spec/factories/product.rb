@@ -4,6 +4,7 @@ FactoryBot.define do
   factory :product, class: 'Product' do
     association :swapper
     swapper_id { SecureRandom.uuid }
+    up_for_auction { false }
   end
 
   factory :item, class: 'Product::Item', parent: :product do

@@ -1,18 +1,22 @@
 # frozen_string_literal: true
 
 class ProductsController < ApplicationController
-  before_action :find_product, only: %i[show update destroy upload_images remove_image]
+  before_action :find_product, only: :show
+  before_action :find_product_for_swapper, only: %i[
+    update 
+    destroy 
+    upload_images 
+    remove_image
+  ]
+  before_action :find_products, only: :index
+  before_action :find_products_for_swapper, only: :summary
   before_action :find_attachment, only: :remove_image
 
   def index
-    @products = if (swapper_id = params[:swapper_id].presence)
-      Product.by_swapper(swapper_id).to_a
-    elsif (category = params[:category].presence)
-      Product.by_category(category).to_a
-    else
-      Product.all.to_a
-    end
+    present_product(@products, :ok)
+  end
 
+  def summary
     present_product(@products, :ok)
   end
 
@@ -29,9 +33,8 @@ class ProductsController < ApplicationController
     present_product(@product, :ok) if @product.update!(product_params)
   end
 
-  def destroy 
-    @product.destroy!
-    head :no_content
+  def destroy
+    head :no_content if @product.destroy!
   end
 
   def upload_images
@@ -51,9 +54,36 @@ class ProductsController < ApplicationController
     head :not_found unless @attachment
   end
 
+  def find_product_for_swapper
+    @product ||= current_swapper.products.find_by(id: params[:id])
+    head :not_found unless @product
+  end
+
   def find_product
     @product ||= Product.find_by(id: params[:id])
     head :not_found unless @product
+  end
+
+  def find_products_for_swapper
+    @products ||= current_swapper.products.to_a || []
+  end
+
+  def find_products
+    @products = if swapper_id_present?
+      Product.by_swapper(@swapper_id).to_a
+    elsif category_present?
+      Product.by_category(@category).to_a
+    else
+      Product.all.to_a || []
+    end
+  end
+
+  def swapper_id_present?
+    @swapper_id ||= params[:swapper_id].presence
+  end
+
+  def category_present?
+    @category ||= params[:category].presence
   end
 
   def present_product(object, status)
@@ -66,6 +96,7 @@ class ProductsController < ApplicationController
       :title,
       :description,
       :swapper_id,
+      :up_for_auction,
       images: [] 
     )
   end 

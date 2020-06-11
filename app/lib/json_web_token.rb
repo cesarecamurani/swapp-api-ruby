@@ -6,7 +6,7 @@ class JsonWebToken
     VERIFY = true
     ENCODING = 'HS512'
 
-    def encode(payload:, exp: 30.minutes.from_now)
+    def encode(payload:, exp: 1.hour.from_now)
       payload[:exp] = exp.to_i
       JWT.encode(payload, SECRET_KEY, ENCODING)
     end

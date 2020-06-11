@@ -54,6 +54,7 @@ module ProductsHelpers
         'category' => 'Product::Item',
         'title' => 'BMC Alpenchallenge AC2',
         'description' => 'Great hybrid bike ideal for commuting',
+        'up_for_auction' => false,
         'swapper_id' => swapper.id
       }
     }
@@ -66,6 +67,7 @@ module ProductsHelpers
         'category' => 'Product::Item',
         'title' => 'BMC Alpenchallenge AC2',
         'description' => 'Great hybrid bike ideal for commuting',
+        'up_for_auction' => false,
         'swapper_id' => swapper.id
       }
     }
@@ -78,6 +80,7 @@ module ProductsHelpers
         'category' => 'Product::Item',
         'title' => 'BMC Roadmachine 01',
         'description' => 'Super fast road bike from BMC manifacturer',
+        'up_for_auction' => false,
         'swapper_id' => swapper.id
       }
     }

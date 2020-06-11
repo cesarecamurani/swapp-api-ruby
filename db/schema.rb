@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_10_110246) do
+ActiveRecord::Schema.define(version: 2020_06_11_151125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -45,7 +45,19 @@ ActiveRecord::Schema.define(version: 2020_06_10_110246) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.uuid "swapper_id"
+    t.boolean "up_for_auction", default: false
     t.index ["swapper_id"], name: "index_products_on_swapper_id"
+  end
+
+  create_table "swapp_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "status"
+    t.uuid "offered_product_id"
+    t.uuid "requested_product_id"
+    t.uuid "req_product_owner_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.uuid "swapper_id"
+    t.index ["swapper_id"], name: "index_swapp_requests_on_swapper_id"
   end
 
   create_table "swappers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -74,5 +86,6 @@ ActiveRecord::Schema.define(version: 2020_06_10_110246) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "products", "swappers"
+  add_foreign_key "swapp_requests", "swappers"
   add_foreign_key "swappers", "users"
 end
