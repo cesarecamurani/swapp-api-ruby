@@ -48,15 +48,23 @@ class SwappRequestsController < ApplicationController
   end
 
   def find_swapp_requests
-    @swapp_requests ||= if params[:received].presence
-      received_swapp_requests.to_a
-    elsif params[:sent].presence
-      sent_swapp_requests.to_a
-    elsif params[:status].presence
-      swapp_requests_by_status(params[:status])
-    else
-      all_swapp_requests.to_a
-    end
+    @swapp_requests = all_swapp_requests
+    @swapp_requests = sent_scope(@swapp_requests)
+    @swapp_requests = received_scope(@swapp_requests)
+    @swapp_requests = status_scope(@swapp_requests)
+    @swapp_requests = @swapp_requests.to_a
+  end
+
+  def sent_scope(scope)
+    params[:sent].presence ? sent_swapp_requests : scope
+  end
+
+  def received_scope(scope)
+    params[:received].presence ? received_swapp_requests : scope
+  end
+
+  def status_scope(scope)
+    (status = params[:status].presence) ? scope.by_status(status) : scope
   end
 
   def all_swapp_requests

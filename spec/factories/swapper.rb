@@ -5,6 +5,7 @@ FactoryBot.define do
     association :user
     name { 'John' }
     surname { 'Smith' }
+    username { 'johnsmith' }
     email { 'johnsmith@email.com' }
     date_of_birth { '06-06-1966' }
     phone_number { '07712345678' }

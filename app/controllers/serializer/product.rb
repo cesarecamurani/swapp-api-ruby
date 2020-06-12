@@ -8,6 +8,7 @@ module Serializer
       title
       description
       up_for_auction
+      department
       swapper_id
     ]
 

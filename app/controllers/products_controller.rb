@@ -59,31 +59,33 @@ class ProductsController < ApplicationController
     head :not_found unless @product
   end
 
+  def find_products_for_swapper
+    @products ||= current_swapper.products.to_a || []
+  end
+
   def find_product
     @product ||= Product.find_by(id: params[:id])
     head :not_found unless @product
   end
 
-  def find_products_for_swapper
-    @products ||= current_swapper.products.to_a || []
-  end
-
   def find_products
-    @products = if swapper_id_present?
-      Product.by_swapper(@swapper_id).to_a
-    elsif category_present?
-      Product.by_category(@category).to_a
-    else
-      Product.all.to_a || []
-    end
+    @products = Product.all
+    @products = swapper_id_scope(@products)
+    @products = category_scope(@products)
+    @products = department_scope(@products)
+    @products = @products.to_a
   end
 
-  def swapper_id_present?
-    @swapper_id ||= params[:swapper_id].presence
+  def swapper_id_scope(scope)
+    (swapper_id = params[:swapper_id].presence) ? scope.by_swapper(swapper_id) : scope
   end
 
-  def category_present?
-    @category ||= params[:category].presence
+  def category_scope(scope)
+    (category = params[:category].presence) ? scope.by_category(category) : scope
+  end
+
+  def department_scope(scope)
+    (department = params[:department].presence) ? scope.by_department(department) : scope
   end
 
   def present_product(object, status)
@@ -97,6 +99,7 @@ class ProductsController < ApplicationController
       :description,
       :swapper_id,
       :up_for_auction,
+      :department,
       images: [] 
     )
   end 

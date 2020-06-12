@@ -11,11 +11,13 @@ FactoryBot.define do
     category { 'Product::Item' }
     title { 'BMC Alpenchallenge AC2' }
     description { 'Great hybrid bike ideal for commuting' }
+    department { 'Sport and Outdoor' }
   end
 
   factory :service, class: 'Product::Service', parent: :product do
     category { 'Product::Service' }
     title { 'Chef for hire' }
     description { 'Amazing private Chef will delight your guests' }
+    department { 'Hospitality Services' }
   end
 end

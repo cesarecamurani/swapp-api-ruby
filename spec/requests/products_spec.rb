@@ -11,9 +11,6 @@ RSpec.describe 'Products', type: 'request' do
 
   describe 'GET index' do
     context 'with successful response' do
-      let(:second_user) { create(:user, username: 'mariorossi', email: 'mariorossi@email.com') }
-      let(:second_swapper) { create(:swapper, user_id: second_user.id) }
-
       before do
         create(:item, swapper_id: swapper.id)
         create(:service, swapper_id: swapper.id)
@@ -23,6 +20,7 @@ RSpec.describe 'Products', type: 'request' do
         it 'returns a list of products' do
           expect(Product).not_to receive(:by_swapper)
           expect(Product).not_to receive(:by_category)
+          expect(Product).not_to receive(:by_department)
 
           get '/products/', headers: headers
 
@@ -45,6 +43,16 @@ RSpec.describe 'Products', type: 'request' do
           expect(Product).to receive(:by_category).with(item.category)
           
           get '/products/', params: { category: item.category }, headers: headers
+   
+          expect(response).to have_http_status(:ok) 
+        end
+      end
+
+      context 'scoped by department' do
+        it 'returns a list of products scoped by department' do
+          expect(Product).to receive(:by_department).with(item.department)
+          
+          get '/products/', params: { department: item.department }, headers: headers
    
           expect(response).to have_http_status(:ok) 
         end

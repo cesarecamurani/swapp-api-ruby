@@ -51,8 +51,7 @@ class SwappersController < ApplicationController
   def find_swappers
     @swappers = Swapper.all
     @swappers = rating_scope(@swappers)
-    @swappers = name_scope(@swappers)
-    @swappers = surname_scope(@swappers)
+    @swappers = username_scope(@swappers)
     @swappers = email_scope(@swappers)
     @swappers = city_scope(@swappers)
     @swappers = country_scope(@swappers)
@@ -63,12 +62,8 @@ class SwappersController < ApplicationController
     (rating = params[:rating].presence) ? scope.by_rating(rating) : scope
   end
 
-  def name_scope(scope)
-    (name = params[:name].presence) ? scope.by_name(name) : scope
-  end
-
-  def surname_scope(scope)
-    (surname = params[:surname].presence) ? scope.by_surname(surname) : scope
+  def username_scope(scope)
+    (username = params[:username].presence) ? scope.by_username(username) : scope
   end
 
   def email_scope(scope)
@@ -91,6 +86,7 @@ class SwappersController < ApplicationController
     params.require(:swapper).permit(
       :name,
       :surname,
+      :username,
       :email,
       :phone_number,
       :date_of_birth,

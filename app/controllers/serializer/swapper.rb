@@ -6,6 +6,7 @@ module Serializer
       id
       name
       surname
+      username
       email
       phone_number
       date_of_birth

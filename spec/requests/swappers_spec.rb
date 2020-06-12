@@ -10,14 +10,76 @@ RSpec.describe 'Swappers', type: 'request' do
 
   describe 'GET index' do
     context 'with successful response' do
-      before do
-        create(:swapper, user_id: user.id)
+      let(:second_user) do 
+        create(:user, username: 'mariorossi', email: 'mariorossi@email.com')
       end
       
-      it 'returns a list of swappers' do
-        get '/swappers/', headers: headers
+      before do
+        create(:swapper, user_id: second_user.id)
+      end
+      
+      context 'without scopes' do
+        it 'returns a list of swappers' do
+          expect(Swapper).not_to receive(:by_rating)
+          expect(Swapper).not_to receive(:by_username)
+          expect(Swapper).not_to receive(:by_email)
+          expect(Swapper).not_to receive(:by_city)
+          expect(Swapper).not_to receive(:by_country)
 
-        expect(response).to have_http_status(:ok)
+          get '/swappers/', headers: headers
+
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context 'scoped by rating' do
+        it 'returns a list of swappers scoped by rating' do
+          expect(Swapper).to receive(:by_rating).with(swapper.rating)
+          
+          get '/swappers/', params: { rating: swapper.rating }, headers: headers
+
+          expect(response).to have_http_status(:ok) 
+        end
+      end
+
+      context 'scoped by username' do
+        it 'returns a list of swappers scoped by username' do
+          expect(Swapper).to receive(:by_username).with(swapper.username)
+          
+          get '/swappers/', params: { username: swapper.username }, headers: headers
+   
+          expect(response).to have_http_status(:ok) 
+        end
+      end
+
+      context 'scoped by email' do
+        it 'returns a list of swappers scoped by email' do
+          expect(Swapper).to receive(:by_email).with(swapper.email)
+          
+          get '/swappers/', params: { email: swapper.email }, headers: headers
+   
+          expect(response).to have_http_status(:ok) 
+        end
+      end
+
+      context 'scoped by city' do
+        it 'returns a list of swappers scoped by city' do
+          expect(Swapper).to receive(:by_city).with(swapper.city)
+          
+          get '/swappers/', params: { city: swapper.city }, headers: headers
+   
+          expect(response).to have_http_status(:ok) 
+        end
+      end
+
+      context 'scoped by country' do
+        it 'returns a list of swappers scoped by country' do
+          expect(Swapper).to receive(:by_country).with(swapper.country)
+          
+          get '/swappers/', params: { country: swapper.country }, headers: headers
+   
+          expect(response).to have_http_status(:ok) 
+        end
       end
     end
 
@@ -35,7 +97,7 @@ RSpec.describe 'Swappers', type: 'request' do
     context 'with successful response' do
       it 'returns the requested swapper' do
         get "/swappers/#{swapper.id}", headers: headers
- 
+
         expect(response).to have_http_status(:ok)
         expect(response_body).to eq(swappers_show_response)
       end
