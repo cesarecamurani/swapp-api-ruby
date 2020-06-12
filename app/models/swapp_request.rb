@@ -9,15 +9,21 @@ class SwappRequest < ApplicationRecord
             :req_product_owner_id,
             presence: true
 
-  enum status: %w[
-    initial
-    accepted
-    rejected
-  ]
-
   scope :by_status, -> (status) { where(status: status) }
 
   scope :received, -> (swapper_id) do 
     where(req_product_owner_id: swapper_id)
+  end
+
+  def initial?
+    self.status == 'initial'
+  end
+
+  def accepted?
+    self.status == 'accepted'
+  end
+
+  def rejected?
+    self.status == 'rejected'
   end
 end

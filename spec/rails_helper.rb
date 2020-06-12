@@ -16,6 +16,7 @@ require_relative 'helpers/application_helpers'
 require_relative 'helpers/authentication_helpers'
 require_relative 'helpers/products_helpers'
 require_relative 'helpers/swappers_helpers'
+require_relative 'helpers/swapp_requests_helpers'
 require_relative 'helpers/users_helpers'
 
 # Add additional requires below this line. Rails is not loaded until this point!
@@ -87,5 +88,6 @@ RSpec.configure do |config|
   config.include AuthenticationHelpers
   config.include ProductsHelpers
   config.include SwappersHelpers
+  config.include SwappRequestsHelpers
   config.include UsersHelpers
 end

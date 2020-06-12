@@ -86,31 +86,31 @@ RSpec.describe Swapper, type: :model do
       end
 
       it 'is not valid without an email' do
-        subject.surname = nil
-        expect(subject).to_not be_valid
-      end
-  
-      it 'is not valid without a password' do
         subject.email = nil
         expect(subject).to_not be_valid
       end
+  
+      it 'is not valid without a phone_number' do
+        subject.phone_number = nil
+        expect(subject).to_not be_valid
+      end
       
-      it 'is not valid without a username' do
+      it 'is not valid without a date_of_birth' do
         subject.date_of_birth = nil
         expect(subject).to_not be_valid
       end
   
-      it 'is not valid without an email' do
+      it 'is not valid without an address' do
         subject.address = nil
         expect(subject).to_not be_valid
       end
   
-      it 'is not valid without a password' do
+      it 'is not valid without a city' do
         subject.city = nil
         expect(subject).to_not be_valid
       end
   
-      it 'is not valid without a password' do
+      it 'is not valid without a country' do
         subject.country = nil
         expect(subject).to_not be_valid
       end

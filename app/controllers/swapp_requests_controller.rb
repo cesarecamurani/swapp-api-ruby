@@ -43,7 +43,7 @@ class SwappRequestsController < ApplicationController
   private
 
   def find_swapp_request
-    @swapp_request ||= all_swapp_requests.find_by(id: params[:id])
+    @swapp_request ||= all_swapp_requests&.find_by(id: params[:id])
     head :not_found unless @swapp_request
   end
 
@@ -68,19 +68,15 @@ class SwappRequestsController < ApplicationController
   end
 
   def all_swapp_requests
-    sent_swapp_requests.union(received_swapp_requests)
+    sent_swapp_requests&.union(received_swapp_requests)
   end
 
   def sent_swapp_requests
-    current_swapper.swapp_requests
+    current_swapper&.swapp_requests
   end
 
   def received_swapp_requests
-    SwappRequest.received(current_swapper.id)
-  end
-
-  def swapp_requests_by_status(status)
-    all_swapp_requests.by_status(status).to_a
+    SwappRequest.received(current_swapper&.id)
   end
 
   def present_swapp_request(object, status)
