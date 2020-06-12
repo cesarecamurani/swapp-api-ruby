@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class AuthenticationController < ApplicationController
+  include AuthenticationHelper
+  
   skip_before_action :authorize_request
  
   def login
@@ -21,14 +23,5 @@ class AuthenticationController < ApplicationController
     invalidate_token
     message = { message: 'You\'ve been logged out' }
     render json: message, status: :ok
-  end
-
-  private
-
-  def invalidate_token
-    raise_unauthorized_with('Invalid or missing token') unless valid_token? 
-
-    TokenBlacklist.invalidate(token: auth_token, user_id: auth_token&.user_id)
-    UserToken.invalidate(user_id: auth_token&.user_id)
   end
 end

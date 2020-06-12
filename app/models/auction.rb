@@ -10,4 +10,16 @@ class Auction < ApplicationRecord
 
   scope :by_swapper, -> (swapper_id) { where(swapper_id: swapper_id) }
   scope :by_status, -> (status) { where(status: status) }
+
+  def initial?
+    self.status == 'initial'
+  end
+
+  def closed?
+    self.status == 'closed'
+  end
+
+  def expired?
+    self.status == 'expired'
+  end
 end

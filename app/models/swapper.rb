@@ -4,8 +4,12 @@ class Swapper < ApplicationRecord
   belongs_to :user
   
   has_one_attached :avatar
-  has_many :products, dependent: :destroy
-  has_many :swapp_requests, dependent: :destroy
+
+  with_options dependent: :destroy do |swapper|
+    swapper.has_many :auctions
+    swapper.has_many :products
+    swapper.has_many :swapp_requests
+  end
 
   ACCEPTED_IMAGE_TYPES = [
     'application/pdf', 
