@@ -30,15 +30,16 @@ class Swapper < ApplicationRecord
             :phone_number,
             :address,
             :city,
-            :country, presence: true
+            :country, 
+            presence: true
 
-  enum rating: %w[
-    excellent
-    good
-    mediocre
-    poor
-    terrible
-  ]
+  enum rating: {
+    excellent: 5,
+    good: 4,
+    mediocre: 3,
+    poor: 2,
+    terrible: 1
+  }
 
   scope :by_rating, -> (rating) { where(rating: rating) }
   scope :by_username, -> (username) { where(username: username) }

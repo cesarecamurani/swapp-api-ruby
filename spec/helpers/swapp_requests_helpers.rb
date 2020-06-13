@@ -5,7 +5,7 @@ module SwappRequestsHelpers
   def swapp_request_create_params
     {
       swapp_request: {
-        status: 'initial',
+        state: 'initial',
         swapper_id: swapper.id,
         offered_product_id: offered_item.id,
         requested_product_id: requested_item.id,
@@ -17,7 +17,7 @@ module SwappRequestsHelpers
   def swapp_request_missing_params
     {
       swapp_request: {
-        status: 'initial',
+        state: 'initial',
         swapper_id: '',
         offered_product_id: offered_item.id,
         requested_product_id: requested_item.id,
@@ -30,7 +30,7 @@ module SwappRequestsHelpers
     {
       'object' => {
         'id' => swapp_request.id,
-        'status' => 'initial',
+        'state' => 'initial',
         'swapper_id' => swapper.id,
         'offered_product_id' => offered_item.id,
         'requested_product_id' => requested_item.id,
@@ -43,7 +43,7 @@ module SwappRequestsHelpers
     {
       'object' => {
         'id' => SwappRequest.last.id,
-        'status' => 'initial',
+        'state' => 'initial',
         'swapper_id' => swapper.id,
         'offered_product_id' => offered_item.id,
         'requested_product_id' => requested_item.id,

@@ -30,8 +30,8 @@ module AuctionsHelper
     (swapper_id = params[:swapper_id].presence) ? scope.by_swapper(swapper_id) : scope
   end
 
-  def status_scope(scope)
-    (status = params[:status].presence) ? scope.by_status(status) : scope
+  def state_scope(scope)
+    (state = params[:state].presence) ? scope.by_state(state) : scope
   end
 
   def auctions
@@ -45,7 +45,7 @@ module AuctionsHelper
   def auction_params
     params.require(:auction).permit(
       :product_id,
-      :status,
+      :state,
       :accepted_product_id,
       :expires_at,
       :swapper_id,

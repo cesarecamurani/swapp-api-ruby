@@ -5,7 +5,7 @@ module Serializer
     ATTRIBUTES = %i[
       id
       product_id
-      status
+      state
       offered_products_ids
       accepted_product_id
       expires_at

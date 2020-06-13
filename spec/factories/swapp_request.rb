@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :swapp_request, class: 'SwappRequest' do
     association :swapper
-    status { 'initial' }
+    state { 'initial' }
     swapper_id { SecureRandom.uuid }
     offered_product_id { SecureRandom.uuid }
     requested_product_id { SecureRandom.uuid }

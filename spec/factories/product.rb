@@ -7,14 +7,14 @@ FactoryBot.define do
     up_for_auction { false }
   end
 
-  factory :item, class: 'Product::Item', parent: :product do
+  factory :item, parent: :product do
     category { 'Product::Item' }
     title { 'BMC Alpenchallenge AC2' }
     description { 'Great hybrid bike ideal for commuting' }
     department { 'Sport and Outdoor' }
   end
 
-  factory :service, class: 'Product::Service', parent: :product do
+  factory :service, parent: :product do
     category { 'Product::Service' }
     title { 'Chef for hire' }
     description { 'Amazing private Chef will delight your guests' }

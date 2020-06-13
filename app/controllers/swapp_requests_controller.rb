@@ -30,15 +30,11 @@ class SwappRequestsController < ApplicationController
 
   def accept_swapp_request
     return unless @swapp_request.initial?
-    if @swapp_request.update!(status: 'accepted')
-      present_swapp_request(@swapp_request, :ok)
-    end
+    present_swapp_request(@swapp_request, :ok) if @swapp_request.accepted!
   end
 
   def reject_swapp_request
     return unless @swapp_request.initial?
-    if @swapp_request.update!(status: 'rejected')
-      present_swapp_request(@swapp_request, :ok)
-    end
+    present_swapp_request(@swapp_request, :ok) if @swapp_request.rejected!
   end
 end

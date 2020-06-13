@@ -14,7 +14,7 @@ module SwappRequestsHelper
     @swapp_requests = all_swapp_requests
     @swapp_requests = sent_scope(@swapp_requests)
     @swapp_requests = received_scope(@swapp_requests)
-    @swapp_requests = status_scope(@swapp_requests)
+    @swapp_requests = state_scope(@swapp_requests)
     @swapp_requests = @swapp_requests.to_a
   end
 
@@ -26,8 +26,8 @@ module SwappRequestsHelper
     params[:received].presence ? received_swapp_requests : scope
   end
 
-  def status_scope(scope)
-    (status = params[:status].presence) ? scope.by_status(status) : scope
+  def state_scope(scope)
+    (state = params[:state].presence) ? scope.by_state(state) : scope
   end
 
   def all_swapp_requests
@@ -48,7 +48,7 @@ module SwappRequestsHelper
 
   def swapp_request_params
     params.require(:swapp_request).permit(
-      :status,
+      :state,
       :swapper_id,
       :offered_product_id,
       :requested_product_id,

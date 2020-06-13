@@ -38,12 +38,12 @@ class AuctionsController < ApplicationController
   end
 
   def make_bid
-    return unless @auction.initial?
+    return unless @auction.in_progress?
     # code here
   end
 
   def accept_bid
-    return unless @auction.initial?
+    return unless @auction.in_progress?
     # code here
   end
 end

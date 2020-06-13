@@ -20,7 +20,7 @@ RSpec.describe SwappRequest, type: :model do
   
   subject(:swapp_request) do 
     described_class.new(
-      status: 'initial',
+      state: 'initial',
       swapper_id: swapper.id,
       offered_product_id: offered_item.id,
       requested_product_id: requested_item.id,
@@ -29,8 +29,8 @@ RSpec.describe SwappRequest, type: :model do
   end
 
   let(:first_swapp_request) do
-    SwappRequest.create!(
-      status: 'initial',
+    create(
+      :swapp_request,
       swapper_id: swapper.id,
       offered_product_id: offered_item.id,
       requested_product_id: requested_item.id,
@@ -39,8 +39,9 @@ RSpec.describe SwappRequest, type: :model do
   end
 
   let(:second_swapp_request) do
-    SwappRequest.create!(
-      status: 'rejected',
+    create(
+      :swapp_request,
+      state: 'rejected',
       swapper_id: req_product_owner.id,
       offered_product_id: requested_item.id,
       requested_product_id: offered_item.id,
@@ -56,8 +57,8 @@ RSpec.describe SwappRequest, type: :model do
     end
     
     context 'invalid' do
-      it 'is not valid without a status' do
-        subject.status = nil
+      it 'is not valid without a state' do
+        subject.state = nil
         expect(subject).to_not be_valid
       end
 
@@ -79,10 +80,10 @@ RSpec.describe SwappRequest, type: :model do
   end
 
   describe 'Scopes' do
-    context 'by_status' do
-      it 'only shows swapp_requests for the requested status' do
-        expect(SwappRequest.by_status(first_swapp_request.status)).to include(first_swapp_request)
-        expect(SwappRequest.by_status(first_swapp_request.status)).not_to include(second_swapp_request)
+    context 'by_state' do
+      it 'only shows swapp_requests for the requested state' do
+        expect(SwappRequest.by_state(first_swapp_request.state)).to include(first_swapp_request)
+        expect(SwappRequest.by_state(first_swapp_request.state)).not_to include(second_swapp_request)
       end
     end
 

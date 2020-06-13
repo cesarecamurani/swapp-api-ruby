@@ -3,27 +3,21 @@
 class SwappRequest < ApplicationRecord
   belongs_to :swapper
 
-  validates :status,
+  validates :state,
             :offered_product_id,
             :requested_product_id,
             :req_product_owner_id,
             presence: true
 
-  scope :by_status, -> (status) { where(status: status) }
+  scope :by_state, -> (state) { where(state: state) }
 
   scope :received, -> (swapper_id) do 
     where(req_product_owner_id: swapper_id)
   end
 
-  def initial?
-    self.status == 'initial'
-  end
-
-  def accepted?
-    self.status == 'accepted'
-  end
-
-  def rejected?
-    self.status == 'rejected'
-  end
+  enum state: {
+    initial: 0,
+    accepted: 1,
+    rejected: 2
+  }
 end

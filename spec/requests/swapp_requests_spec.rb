@@ -49,7 +49,7 @@ RSpec.describe 'SwappRequests', type: 'request' do
   end
 
   let(:wrong_id) { 'WRONG_ID' }
-  let(:status) { response_body['object']['status'] }
+  let(:state) { response_body['object']['state'] }
 
   describe 'GET index' do
     context 'with successful response' do
@@ -59,20 +59,20 @@ RSpec.describe 'SwappRequests', type: 'request' do
       
       context 'without scopes' do
         it 'returns a list of swapp_requests' do
-          expect(SwappRequest).not_to receive(:by_status)
+          expect(SwappRequest).not_to receive(:by_state)
           expect(SwappRequest).to receive(:received)
 
           get '/swapp_requests/', headers: headers
-
+          
           expect(response).to have_http_status(:ok)
         end
       end
 
-      context 'scoped by status' do
-        it 'returns a list of swapp_requests scoped by status' do
-          expect(SwappRequest).to receive(:by_status).with(swapp_request.status)
+      context 'scoped by state' do
+        it 'returns a list of swapp_requests scoped by state' do
+          expect(SwappRequest).to receive(:by_state).with(swapp_request.state)
           
-          get '/swapp_requests/', params: { status: swapp_request.status }, headers: headers
+          get '/swapp_requests/', params: { state: swapp_request.state }, headers: headers
    
           expect(response).to have_http_status(:ok) 
         end
@@ -206,12 +206,12 @@ RSpec.describe 'SwappRequests', type: 'request' do
 
   describe 'PATCH accept_swapp_request' do
     context 'with successful response' do 
-      it 'changes the swapp_request status to accepted' do
+      it 'changes the swapp_request state to accepted' do
         patch "/swapp_requests/#{swapp_request.id}/accept_swapp_request",
         headers: headers
 
         expect(response).to have_http_status(:ok)
-        expect(status).to eq('accepted')
+        expect(state).to eq('accepted')
       end
     end
 
@@ -236,12 +236,12 @@ RSpec.describe 'SwappRequests', type: 'request' do
 
   describe 'PATCH reject_swapp_request' do
     context 'with successful response' do 
-      it 'changes the swapp_request status to rejected' do
+      it 'changes the swapp_request state to rejected' do
         patch "/swapp_requests/#{swapp_request.id}/reject_swapp_request",
         headers: headers
 
         expect(response).to have_http_status(:ok)
-        expect(status).to eq('rejected')
+        expect(state).to eq('rejected')
       end
     end
 

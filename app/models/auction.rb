@@ -4,22 +4,16 @@ class Auction < ApplicationRecord
   belongs_to :swapper
 
   validates :product_id,
-            :status,
+            :state,
             :expires_at, 
             presence: true
 
   scope :by_swapper, -> (swapper_id) { where(swapper_id: swapper_id) }
-  scope :by_status, -> (status) { where(status: status) }
+  scope :by_state, -> (state) { where(state: state) }
 
-  def initial?
-    self.status == 'initial'
-  end
-
-  def closed?
-    self.status == 'closed'
-  end
-
-  def expired?
-    self.status == 'expired'
-  end
+  enum state: {
+    in_progress: 0,
+    closed: 1,
+    expired: 2
+  }
 end

@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :auction, class: 'Auction' do
     association :swapper
     product_id { SecureRandom.uuid }
-    status { 'initial' }
+    state { 'in_progress' }
     offered_products_ids { [] }
     accepted_product_id { '' }
     expires_at { 72.hours.from_now }

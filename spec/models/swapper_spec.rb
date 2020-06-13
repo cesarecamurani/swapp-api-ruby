@@ -31,7 +31,8 @@ RSpec.describe Swapper, type: :model do
   end
 
   let(:first_swapper) do
-    Swapper.create(
+    create(
+      :swapper,
       name: 'John',
       surname: 'Smith',
       username: user.username,
@@ -47,7 +48,8 @@ RSpec.describe Swapper, type: :model do
   end
 
   let(:second_swapper) do
-    Swapper.create(
+    create(
+      :swapper,
       name: 'Mario',
       surname: 'Rossi',
       username: second_user.username,

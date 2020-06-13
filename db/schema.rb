@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_12_145348) do
+ActiveRecord::Schema.define(version: 2020_06_13_140939) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 2020_06_12_145348) do
 
   create_table "auctions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "product_id"
-    t.string "status"
+    t.integer "state", limit: 2
     t.string "offered_products_ids", default: [], array: true
     t.string "accepted_product_id"
     t.datetime "expires_at"
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 2020_06_12_145348) do
   end
 
   create_table "swapp_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "status"
+    t.integer "state", limit: 2
     t.uuid "offered_product_id"
     t.uuid "requested_product_id"
     t.uuid "req_product_owner_id"

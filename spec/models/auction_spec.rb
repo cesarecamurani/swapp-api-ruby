@@ -28,7 +28,7 @@ RSpec.describe Auction, type: :model do
   subject(:auction) do 
     described_class.new(
       product_id: product.id,
-      status: 'initial',
+      state: 'in_progress',
       offered_products_ids: [],
       accepted_product_id: '',
       expires_at: 72.hours.from_now,
@@ -39,7 +39,7 @@ RSpec.describe Auction, type: :model do
   let(:first_auction) do
     Auction.create!(
       product_id: product.id,
-      status: 'initial',
+      state: 'in_progress',
       expires_at: 72.hours.from_now,
       swapper_id: swapper.id
     )
@@ -48,7 +48,7 @@ RSpec.describe Auction, type: :model do
   let(:second_auction) do
     Auction.create!(
       product_id: second_product.id,
-      status: 'closed',
+      state: 'closed',
       expires_at: 72.hours.from_now,
       swapper_id: second_swapper.id
     )
@@ -67,8 +67,8 @@ RSpec.describe Auction, type: :model do
         expect(subject).to_not be_valid
       end
   
-      it 'is not valid without a status' do
-        subject.status = nil
+      it 'is not valid without a state' do
+        subject.state = nil
         expect(subject).to_not be_valid
       end
   
@@ -88,9 +88,9 @@ RSpec.describe Auction, type: :model do
     end
   
     context 'by_category' do
-      it 'only shows auctions for the requested status' do
-        expect(Auction.by_status('initial')).to include(first_auction)
-        expect(Auction.by_status('initial')).not_to include(second_auction)
+      it 'only shows auctions for the requested state' do
+        expect(Auction.by_state(first_auction.state)).to include(first_auction)
+        expect(Auction.by_state(first_auction.state)).not_to include(second_auction)
       end
     end
   end

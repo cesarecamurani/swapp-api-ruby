@@ -4,7 +4,7 @@ module Serializer
   class SwappRequest
     ATTRIBUTES = %i[
       id
-      status
+      state
       swapper_id
       offered_product_id
       requested_product_id

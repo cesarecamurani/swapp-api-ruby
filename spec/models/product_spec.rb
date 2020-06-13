@@ -32,35 +32,9 @@ RSpec.describe Product, type: :model do
     )
   end
 
-  let(:item) do
-    Product.create!(
-      category: 'Product::Item',
-      title: 'Bike',
-      description: 'Amazing hybrid bike',
-      department: 'Sport and Outdoor',
-      swapper_id: swapper.id
-    )
-  end
-
-  let(:different_swapper_item) do
-    Product.create!(
-      category: 'Product::Item',
-      title: 'Bike',
-      description: 'Amazing hybrid bike',
-      department: 'Sport and Outdoor',
-      swapper_id: different_swapper.id
-    )
-  end
-
-  let(:service) do
-    Product.create!(
-      category: 'Product::Service',
-      title: 'Plumber',
-      description: 'Free plumbing service',
-      department: 'Plumbing',
-      swapper_id: swapper.id
-    )
-  end
+  let(:item) { create(:item, swapper_id: swapper.id) }
+  let(:different_swapper_item) { create(:item, swapper_id: different_swapper.id) }
+  let(:service) { create(:service, swapper_id: swapper.id) }
 
   describe 'Validations' do
     context 'valid' do
