@@ -13,6 +13,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'rspec/rails'
 
 require_relative 'helpers/application_helpers'
+require_relative 'helpers/auctions_helpers'
 require_relative 'helpers/authentication_helpers'
 require_relative 'helpers/products_helpers'
 require_relative 'helpers/swappers_helpers'
@@ -85,6 +86,7 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
   
   config.include ApplicationHelpers
+  config.include AuctionsHelpers
   config.include AuthenticationHelpers
   config.include ProductsHelpers
   config.include SwappersHelpers

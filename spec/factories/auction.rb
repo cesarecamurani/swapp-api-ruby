@@ -6,8 +6,8 @@ FactoryBot.define do
     product_id { SecureRandom.uuid }
     state { 'in_progress' }
     offered_products_ids { [] }
-    accepted_product_id { '' }
-    expires_at { 72.hours.from_now }
+    accepted_product_id { nil }
+    expires_at { 72.hours.from_now.strftime('%FT%R:%S.000Z') }
     swapper_id { SecureRandom.uuid }
   end
 end

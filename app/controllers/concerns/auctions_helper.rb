@@ -11,7 +11,7 @@ module AuctionsHelper
   end
 
   def find_auctions_for_swapper
-    @products ||= auctions&.to_a || []
+    @auctions ||= auctions&.to_a || []
   end
 
   def find_auction
@@ -22,7 +22,7 @@ module AuctionsHelper
   def find_auctions
     @auctions = Auction.all
     @auctions = swapper_id_scope(@auctions)
-    @auctions = status_scope(@auctions)
+    @auctions = state_scope(@auctions)
     @auctions = @auctions.to_a
   end
 
