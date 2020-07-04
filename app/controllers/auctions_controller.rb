@@ -3,14 +3,10 @@
 class AuctionsController < ApplicationController
   include AuctionsHelper
 
-  before_action :find_auction, only: %i[ show make_bid ]
-  before_action :find_auction_for_swapper, only: %i[
-    update
-    destroy
-    accept_bid
-  ]
+  before_action :find_auction, only: :show
+  before_action :find_swapper_auction, only: %i[update destroy]
   before_action :find_auctions, only: :index
-  before_action :find_auctions_for_swapper, only: :summary
+  before_action :find_swapper_auctions, only: :summary
 
   def index
     present_auction(@auctions, :ok)
@@ -35,15 +31,5 @@ class AuctionsController < ApplicationController
 
   def destroy
     head :no_content if @auction.destroy! 
-  end
-
-  def make_bid
-    return unless @auction.in_progress?
-    # code here
-  end
-
-  def accept_bid
-    return unless @auction.in_progress?
-    # code here
   end
 end

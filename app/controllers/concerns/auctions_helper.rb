@@ -5,12 +5,12 @@ module AuctionsHelper
  
   private
 
-  def find_auction_for_swapper
+  def find_swapper_auction
     @auction ||= auctions&.find_by(id: params[:id])
     head :not_found unless @auction
   end
 
-  def find_auctions_for_swapper
+  def find_swapper_auctions
     @auctions ||= auctions&.to_a || []
   end
 
@@ -32,10 +32,6 @@ module AuctionsHelper
 
   def state_scope(scope)
     (state = params[:state].presence) ? scope.by_state(state) : scope
-  end
-
-  def auctions
-    current_swapper&.auctions
   end
 
   def present_auction(object, status)

@@ -2,7 +2,7 @@
 
 module Serializer
   class Bid
-    ATTRIBUTES = %i[id product_id state]
+    ATTRIBUTES = %i[id product_id state auction_id]
 
     def initialize(object)
       ATTRIBUTES.each do |attribute|

@@ -32,9 +32,16 @@ Rails.application.routes.draw do
   end
 
   resources :auctions, only: %i[index show create update destroy] do
+    collection do
+      get '/summary', action: :summary, as: :summary
+    end
+  end
+
+  resources :bids, only: %i[show create] do
     member do
-      patch '/make_bid', action: :make_bid, as: :make_bid
-      patch '/accept_bid', action: :accept_bid, as: :accept_bid
+      patch '/accept_bid', action: :accept_bid, 
+                           as: :accept_bid
+
     end
 
     collection do
