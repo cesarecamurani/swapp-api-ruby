@@ -62,6 +62,6 @@ module ProductsHelper
       :department,
       images: [] 
     )
-  end 
+  end
 end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_13_140939) do
+ActiveRecord::Schema.define(version: 2020_07_04_134323) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -41,13 +41,21 @@ ActiveRecord::Schema.define(version: 2020_06_13_140939) do
   create_table "auctions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "product_id"
     t.integer "state", limit: 2
-    t.string "offered_products_ids", default: [], array: true
-    t.string "accepted_product_id"
+    t.string "accepted_bid_id"
     t.datetime "expires_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.uuid "swapper_id"
     t.index ["swapper_id"], name: "index_auctions_on_swapper_id"
+  end
+
+  create_table "bids", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "product_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.uuid "auction_id"
+    t.integer "state"
+    t.index ["auction_id"], name: "index_bids_on_auction_id"
   end
 
   create_table "products", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -100,6 +108,7 @@ ActiveRecord::Schema.define(version: 2020_06_13_140939) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "auctions", "swappers"
+  add_foreign_key "bids", "auctions"
   add_foreign_key "products", "swappers"
   add_foreign_key "swapp_requests", "swappers"
   add_foreign_key "swappers", "users"

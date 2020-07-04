@@ -46,10 +46,9 @@ module AuctionsHelper
     params.require(:auction).permit(
       :product_id,
       :state,
-      :accepted_product_id,
+      :accepted_bid_id,
       :expires_at,
-      :swapper_id,
-      offered_products_ids: []
+      :swapper_id
     )
   end
 end

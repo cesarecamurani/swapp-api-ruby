@@ -3,6 +3,8 @@
 class Auction < ApplicationRecord
   belongs_to :swapper
 
+  has_many :bids, dependent: :destroy
+
   validates :product_id,
             :state,
             :expires_at, 

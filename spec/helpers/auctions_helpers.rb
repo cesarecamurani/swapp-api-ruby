@@ -29,8 +29,7 @@ module AuctionsHelpers
       'object' => {
         'id' => auction.id,
         'product_id' => product.id,
-        'accepted_product_id' => nil,
-        'offered_products_ids' => [],
+        'accepted_bid_id' => nil,
         'state' => 'in_progress',
         'expires_at' => auction.expires_at.strftime('%FT%R:%S.000Z'),
         'swapper_id' => swapper.id
@@ -43,8 +42,7 @@ module AuctionsHelpers
       'object' => {
         'id' => Auction.last.id,
         'product_id' => product.id,
-        'accepted_product_id' => nil,
-        'offered_products_ids' => [],
+        'accepted_bid_id' => nil,
         'state' => 'in_progress',
         'expires_at' => auction.expires_at.strftime('%FT%R:%S.000Z'),
         'swapper_id' => swapper.id

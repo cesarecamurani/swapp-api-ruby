@@ -1,15 +1,8 @@
 # frozen_string_literal: true
 
 module Serializer
-  class Auction
-    ATTRIBUTES = %i[
-      id
-      product_id
-      state
-      accepted_bid_id
-      expires_at
-      swapper_id
-    ]
+  class Bid
+    ATTRIBUTES = %i[id product_id state]
 
     def initialize(object)
       ATTRIBUTES.each do |attribute|

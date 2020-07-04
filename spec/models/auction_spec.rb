@@ -29,8 +29,7 @@ RSpec.describe Auction, type: :model do
     described_class.new(
       product_id: product.id,
       state: 'in_progress',
-      offered_products_ids: [],
-      accepted_product_id: '',
+      accepted_bid_id: '',
       expires_at: 72.hours.from_now,
       swapper_id: swapper.id
     )
