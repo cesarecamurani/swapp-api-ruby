@@ -12,6 +12,10 @@ module ApplicationHelpers
     JSON.parse(response.body)
   end
 
+  def state
+    response_body['object']['state']
+  end
+
   def error_message
     response_body['message']
   end

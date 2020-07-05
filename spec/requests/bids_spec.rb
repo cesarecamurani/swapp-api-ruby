@@ -27,9 +27,17 @@ RSpec.describe 'Bids', type: 'request' do
   let(:auction) do 
     create(:auction, product_id: product.id, swapper_id: swapper.id)
   end
-  
+
+  let(:second_auction) do 
+    create(:auction, product_id: second_product.id, swapper_id: second_swapper.id)
+  end
+
   let(:bid) do 
     create(:bid, product_id: second_product.id, auction_id: auction.id)
+  end
+
+  let(:second_bid) do 
+    create(:bid, product_id: second_product.id, auction_id: second_auction.id)
   end
 
   let(:wrong_id) { 'WRONG_ID' }
@@ -113,6 +121,38 @@ RSpec.describe 'Bids', type: 'request' do
           expect(response).to have_http_status(:unauthorized)
           expect(error_message).to eq('Invalid or missing token')
         end
+      end
+    end
+  end
+
+  describe 'PATCH accept_bid' do
+    context 'with successful response' do 
+      it 'changes the bid state to accepted' do
+        patch "/bids/#{bid.id}/accept_bid", 
+        params: { auction_id: auction.id },
+        headers: headers
+
+        expect(response).to have_http_status(:ok)
+        expect(state).to eq('accepted')
+      end
+    end
+
+    context 'with missing authentication token' do
+      it 'returns an unauthorized error' do
+        patch "/bids/#{bid.id}/accept_bid", params: { auction_id: auction.id }
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(error_message).to eq('Invalid or missing token')
+      end
+    end
+
+    context 'with another auction\'s bid id' do
+      it 'returns a not found error' do
+        patch "/bids/#{second_bid.id}/accept_bid", 
+        params: { auction_id: second_auction.id },
+        headers: headers
+
+        expect(response).to have_http_status(:not_found)
       end
     end
   end

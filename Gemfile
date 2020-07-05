@@ -10,6 +10,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'dotenv-rails', '~> 2.7', '>= 2.7.5'
 gem 'image_processing', '~> 1.11'
+gem 'iso_country_codes', '~> 0.7.8'
 gem 'jbuilder', '~> 2.7'
 gem 'jwt', '~> 2.2', '>= 2.2.1'
 gem 'pg', '~> 0.18.4'

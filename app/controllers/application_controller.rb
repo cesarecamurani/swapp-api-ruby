@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
 
   def bids
     auction = auctions&.find_by(id: params[:auction_id])
-    @_bids ||= auction.bids
+    @_bids ||= auction&.bids
   end
 
   def http_token

@@ -49,7 +49,6 @@ RSpec.describe 'SwappRequests', type: 'request' do
   end
 
   let(:wrong_id) { 'WRONG_ID' }
-  let(:state) { response_body['object']['state'] }
 
   describe 'GET index' do
     context 'with successful response' do

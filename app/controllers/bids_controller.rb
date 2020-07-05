@@ -3,7 +3,7 @@
 class BidsController < ApplicationController
   include BidsHelper
 
-  before_action :find_bid, only: :show
+  before_action :find_bid, only: %i[show accept_bid]
   before_action :find_bids, only: :summary
 
   def summary
