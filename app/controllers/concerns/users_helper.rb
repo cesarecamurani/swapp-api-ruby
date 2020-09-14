@@ -20,7 +20,7 @@ module UsersHelper
       :email,
       :password
     ).merge(
-      password_confirmation: params[:password]
+      password_confirmation: params[:user][:password]
     )
   end
 end

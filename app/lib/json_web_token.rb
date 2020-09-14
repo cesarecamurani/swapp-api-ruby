@@ -10,12 +10,12 @@ class JsonWebToken
       payload[:exp] = exp.to_i
       JWT.encode(payload, SECRET_KEY, ENCODING)
     end
- 
+
     def decode(token:)
       decoded_token = JWT.decode(
-        token, 
-        SECRET_KEY, 
-        VERIFY, 
+        token,
+        SECRET_KEY,
+        VERIFY,
         algorithm: ENCODING
       ).first
 
