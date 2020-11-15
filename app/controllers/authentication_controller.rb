@@ -9,7 +9,7 @@ class AuthenticationController < ApplicationController
     user = User.find_by(email: params[:email])
 
     unless user&.authenticate(params[:password])
-      raise_unauthorized_with('Invalid credentials')
+      raise_unauthorized_with('Invalid credentials!')
     end
 
     unless (auth_token = JsonWebToken.encode(payload: { user_id: user.id }))

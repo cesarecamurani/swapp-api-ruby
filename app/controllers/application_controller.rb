@@ -11,25 +11,29 @@ class ApplicationController < ActionController::Base
   private
 
   def current_swapper
-    @_current_swapper ||= @current_user.swapper
+    @current_swapper ||= @current_user.swapper
   end
 
   def auctions
-    @_auctions ||= current_swapper&.auctions
+    @auctions ||= current_swapper&.auctions
   end
 
   def bids
     auction = auctions&.find_by(id: params[:auction_id])
-    @_bids ||= auction&.bids
+    @bids ||= auction&.bids
   end
 
   def http_token
-    return unless request.headers['Authorization'].present?
-    @_http_token ||= request.headers['Authorization'].split(' ').last
+    authorization = request.headers['Authorization'].presence || 
+                    request['headers']['Authorization'].presence
+    
+    return unless authorization
+
+    @http_token ||= authorization.split(' ').last
   end
 
   def auth_token
-    @_auth_token ||= OpenStruct.new(
+    @auth_token ||= OpenStruct.new(
       JsonWebToken.decode(token: http_token)
     )
   end
