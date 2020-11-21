@@ -8,6 +8,7 @@ class JsonWebToken
 
     def encode(payload:, exp: 1.hour.from_now)
       payload[:exp] = exp.to_i
+
       JWT.encode(payload, SECRET_KEY, ENCODING)
     end
 

@@ -2,7 +2,7 @@
 
 class UsersController < ApplicationController
   include UsersHelper
-  
+
   before_action :find_user, only: %i[show update destroy]
   skip_before_action :authorize_request, only: :create
 
@@ -19,7 +19,7 @@ class UsersController < ApplicationController
     present_user(@user, :ok) if @user.update!(user_params)
   end
 
-  def destroy 
+  def destroy
     head :no_content if @user.destroy!
   end
 end

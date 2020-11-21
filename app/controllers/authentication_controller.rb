@@ -16,12 +16,14 @@ class AuthenticationController < ApplicationController
       raise_unauthorized_with('Invalid or missing token')
     end
 
-    render json: auth_response(auth_token, user.id), status: :ok
+    render json: auth_response(auth_token, user.id, user.username), status: :ok
   end
 
   def logout
     invalidate_token
+
     message = { message: 'You\'ve been logged out' }
+
     render json: message, status: :ok
   end
 end

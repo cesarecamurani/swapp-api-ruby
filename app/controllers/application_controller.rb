@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   skip_before_action :verify_authenticity_token
   before_action :authorize_request
-  
+
   attr_reader :current_user, :current_swapper
 
   private
@@ -24,9 +24,9 @@ class ApplicationController < ActionController::Base
   end
 
   def http_token
-    authorization = request.headers['Authorization'].presence || 
+    authorization = request.headers['Authorization'].presence ||
                     request['headers']['Authorization'].presence
-    
+
     return unless authorization
 
     @http_token ||= authorization.split(' ').last
@@ -46,28 +46,29 @@ class ApplicationController < ActionController::Base
     if TokenBlacklist.includes?(token: auth_token)
       raise_unauthorized_with('This token has been revoked')
     end
-    
+
     unless valid_token?
       raise_unauthorized_with('Invalid or missing token')
     end
-    
+
     unless (@current_user ||= User.find_by(id: auth_token&.user_id))
       raise_unauthorized_with('No user was found for this token')
     end
   end
 
-  def auth_response(token, user_id)
+  def auth_response(token, user_id, username)
     {
       token_type: 'Bearer',
       auth_token: token,
-      user_id: user_id
+      user_id: user_id,
+      username: username
     }
   end
 
   def raise_unauthorized_with(message)
     raise Error::UnauthorizedError.new(message: message)
   end
-  
+
   def present(object, **options)
     serializer = options[:serializer].presence
 
