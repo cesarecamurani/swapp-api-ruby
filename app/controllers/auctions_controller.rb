@@ -22,6 +22,7 @@ class AuctionsController < ApplicationController
 
   def create
     @auction = Auction.new(auction_params)
+
     present_auction(@auction, :created) if @auction.save!
   end
 
@@ -30,6 +31,6 @@ class AuctionsController < ApplicationController
   end
 
   def destroy
-    head :no_content if @auction.destroy! 
+    head :no_content if @auction.destroy!
   end
 end

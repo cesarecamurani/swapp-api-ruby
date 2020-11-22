@@ -12,6 +12,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+
     present_user(@user, :created) if @user.save!
   end
 

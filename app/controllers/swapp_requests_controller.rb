@@ -4,7 +4,7 @@ class SwappRequestsController < ApplicationController
   include SwappRequestsHelper
 
   before_action :find_swapp_requests, only: :index
-  before_action :find_swapp_request, only: %i[ 
+  before_action :find_swapp_request, only: %i[
     show
     destroy
     accept_swapp_request
@@ -21,20 +21,23 @@ class SwappRequestsController < ApplicationController
 
   def create
     @swapp_request = SwappRequest.new(swapp_request_params)
-    present_swapp_request(@swapp_request, :created) if @swapp_request.save!
+
+    present_swapp_request(@swapp_request, :created) if @swapp_request.save!!
   end
 
   def destroy
-    head :no_content if @swapp_request.destroy! 
+    head :no_content if @swapp_request.destroy!
   end
 
   def accept_swapp_request
     return unless @swapp_request.initial?
+
     present_swapp_request(@swapp_request, :ok) if @swapp_request.accepted!
   end
 
   def reject_swapp_request
     return unless @swapp_request.initial?
+
     present_swapp_request(@swapp_request, :ok) if @swapp_request.rejected!
   end
 end

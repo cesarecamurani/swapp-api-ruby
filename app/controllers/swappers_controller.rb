@@ -2,13 +2,13 @@
 
 class SwappersController < ApplicationController
   include SwappersHelper
-  
+
   before_action :find_swappers, only: :index
   before_action :find_swapper, only: %i[
-    show 
-    update 
-    destroy 
-    upload_avatar 
+    show
+    update
+    destroy
+    upload_avatar
     remove_avatar
   ]
 
@@ -22,6 +22,7 @@ class SwappersController < ApplicationController
 
   def create
     @swapper = Swapper.new(swapper_params)
+
     present_swapper(@swapper, :created) if @swapper.save!
   end
 
@@ -29,17 +30,19 @@ class SwappersController < ApplicationController
     present_swapper(@swapper, :ok) if @swapper.update!(swapper_params)
   end
 
-  def destroy 
+  def destroy
     head :no_content if @swapper.destroy!
   end
 
   def upload_avatar
     return unless params[:avatar].presence
+
     head :ok if @swapper.avatar.attach(params[:avatar])
   end
 
   def remove_avatar
     return unless @swapper.avatar.attached?
+
     head :no_content if @swapper.avatar.attachment.purge
   end
 end

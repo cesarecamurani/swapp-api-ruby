@@ -5,9 +5,9 @@ class ProductsController < ApplicationController
 
   before_action :find_product, only: :show
   before_action :find_product_for_swapper, only: %i[
-    update 
-    destroy 
-    upload_images 
+    update
+    destroy
+    upload_images
     remove_image
   ]
   before_action :find_products, only: :index
@@ -41,11 +41,13 @@ class ProductsController < ApplicationController
 
   def upload_images
     return unless params[:images].presence
+
     head :ok if @product.images.attach(params[:images])
   end
 
   def remove_image
     return unless @product.images.attached? && params[:image_id].presence
+
     head :no_content if @attachment.purge
   end
 end
