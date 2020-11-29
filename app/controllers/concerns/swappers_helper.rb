@@ -7,6 +7,7 @@ module SwappersHelper
 
   def find_swapper
     @swapper ||= Swapper.find_by(id: params[:id])
+
     head :not_found unless @swapper
   end
 
@@ -59,5 +60,5 @@ module SwappersHelper
       :avatar,
       :user_id
     )
-  end 
+  end
 end

@@ -11,8 +11,8 @@ class UserToken
       user_token_list << token
 
       $swapp_namespace.set(
-        user_id, 
-        user_token_list.to_json, 
+        user_id,
+        user_token_list.to_json,
         { exp: 30.minutes.from_now.to_i }
       )
     end

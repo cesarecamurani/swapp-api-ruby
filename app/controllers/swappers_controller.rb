@@ -3,7 +3,6 @@
 class SwappersController < ApplicationController
   include SwappersHelper
 
-  before_action :find_swappers, only: :index
   before_action :find_swapper, only: %i[
     show
     update
@@ -13,6 +12,8 @@ class SwappersController < ApplicationController
   ]
 
   def index
+    find_swappers
+
     present_swapper(@swappers, :ok)
   end
 

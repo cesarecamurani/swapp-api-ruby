@@ -8,8 +8,8 @@ class TokenBlacklist
 
     def invalidate(token:, user_id:)
       $swapp_namespace.set(
-        token, 
-        user_id, 
+        token,
+        user_id,
         { exp: 1.hour.from_now.to_i }
       )
     end

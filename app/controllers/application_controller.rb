@@ -10,10 +10,6 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def current_swapper
-    @current_swapper ||= @current_user.swapper
-  end
-
   def auctions
     @auctions ||= current_swapper&.auctions
   end
@@ -32,18 +28,18 @@ class ApplicationController < ActionController::Base
     @http_token ||= authorization.split(' ').last
   end
 
-  def auth_token
-    @auth_token ||= OpenStruct.new(
+  def decoded_token
+    @decoded_token ||= OpenStruct.new(
       JsonWebToken.decode(token: http_token)
     )
   end
 
   def valid_token?
-    http_token && auth_token&.user_id
+    http_token && decoded_token&.user_id
   end
 
   def authorize_request
-    if TokenBlacklist.includes?(token: auth_token)
+    if TokenBlacklist.includes?(token: http_token)
       raise_unauthorized_with('This token has been revoked')
     end
 
@@ -51,17 +47,19 @@ class ApplicationController < ActionController::Base
       raise_unauthorized_with('Invalid or missing token')
     end
 
-    unless (@current_user ||= User.find_by(id: auth_token&.user_id))
+    unless (@current_user ||= User.find_by(id: decoded_token&.user_id))
       raise_unauthorized_with('No user was found for this token')
     end
   end
 
-  def auth_response(token, user_id, username)
+  def auth_response(token, user_id, username, email, swapper)
     {
       token_type: 'Bearer',
       auth_token: token,
       user_id: user_id,
-      username: username
+      username: username,
+      email: email,
+      swapper: swapper
     }
   end
 
@@ -80,6 +78,6 @@ class ApplicationController < ActionController::Base
                  serializer.constantize.new(object)
                end
 
-    render json: { object: response }, status: options[:status]
+    render json: response, status: options[:status]
   end
 end

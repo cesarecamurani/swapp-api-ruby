@@ -6,10 +6,10 @@ module AuthenticationHelper
   private
 
   def invalidate_token
-    raise_unauthorized_with('Invalid or missing token') unless valid_token? 
+    raise_unauthorized_with('Invalid or missing token') unless valid_token?
 
-    TokenBlacklist.invalidate(token: auth_token, user_id: auth_token&.user_id)
-    
-    UserToken.invalidate(user_id: auth_token&.user_id)
+    TokenBlacklist.invalidate(token: http_token, user_id: decoded_token&.user_id)
+
+    UserToken.invalidate(user_id: decoded_token&.user_id)
   end
 end

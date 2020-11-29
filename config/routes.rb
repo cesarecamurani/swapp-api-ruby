@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   post '/auth/logout', to: 'authentication#logout'
 
   resources :users, only: %i[show create update destroy]
-  
+
   resources :swappers, only: %i[index show create update destroy] do
     member do
       put '/upload_avatar', action: :upload_avatar, as: :upload_avatar
@@ -26,9 +26,9 @@ Rails.application.routes.draw do
 
   resources :swapp_requests, only: %i[index show create destroy] do
     member do
-      patch '/accept_swapp_request', action: :accept_swapp_request, 
+      patch '/accept_swapp_request', action: :accept_swapp_request,
                                      as: :accept_swapp_request
-      patch '/reject_swapp_request', action: :reject_swapp_request, 
+      patch '/reject_swapp_request', action: :reject_swapp_request,
                                      as: :reject_swapp_request
     end
   end
@@ -41,7 +41,7 @@ Rails.application.routes.draw do
 
   resources :bids, only: %i[show create] do
     member do
-      patch '/accept_bid', action: :accept_bid, 
+      patch '/accept_bid', action: :accept_bid,
                            as: :accept_bid
 
     end

@@ -12,11 +12,13 @@ class AuthenticationController < ApplicationController
       raise_unauthorized_with('Invalid credentials!')
     end
 
-    unless (auth_token = JsonWebToken.encode(payload: { user_id: user.id }))
+    unless (encoded_token = JsonWebToken.encode(payload: { user_id: user.id }))
       raise_unauthorized_with('Invalid or missing token')
     end
 
-    render json: auth_response(auth_token, user.id, user.username), status: :ok
+    swapper = user&.swapper
+
+    render json: auth_response(encoded_token, user.id, user.username, user.email, swapper), status: :ok
   end
 
   def logout
