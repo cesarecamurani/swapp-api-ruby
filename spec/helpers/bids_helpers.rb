@@ -24,23 +24,19 @@ module BidsHelpers
 
   def bids_show_response
     {
-      'object' => {
-        'id' => bid.id,
-        'product_id' => second_product.id,
-        'state' => 'initial',
-        'auction_id' => auction.id
-      }
+      'id' => bid.id,
+      'product_id' => second_product.id,
+      'state' => 'initial',
+      'auction_id' => auction.id
     }
   end
 
   def bids_create_response
     {
-      'object' => {
-        'id' => Bid.last.id,
-        'product_id' => second_product.id,
-        'state' => 'initial',
-        'auction_id' => auction.id
-      }
+      'id' => Bid.last.id,
+      'product_id' => second_product.id,
+      'state' => 'initial',
+      'auction_id' => auction.id
     }
   end
 end

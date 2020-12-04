@@ -5,9 +5,9 @@ module SwappersHelpers
   def avatar
     fixture_file_upload(
       Rails.root.join(
-        'spec', 
-        'fixtures', 
-        'files', 
+        'spec',
+        'fixtures',
+        'files',
         'avatar.jpg'
       ),
       'image/jpeg'
@@ -67,61 +67,55 @@ module SwappersHelpers
       }
     }
   end
-  
+
   def swappers_show_response
     {
-      'object' => {
-        'id' => swapper.id,
-        'name' => 'John',
-        'surname' => 'Smith',
-        'username' => user.username,
-        'email' => user.email,
-        'phone_number' => '07712345678',
-        'date_of_birth' => '06-06-1966',
-        'address' => '6, Street',
-        'city' => 'London',
-        'country' => 'UK',
-        'rating' => 'good',
-        'user_id' => user.id
-      }
+      'id' => swapper.id,
+      'name' => 'John',
+      'surname' => 'Smith',
+      'username' => user.username,
+      'email' => user.email,
+      'phone_number' => '07712345678',
+      'date_of_birth' => '06-06-1966',
+      'address' => '6, Street',
+      'city' => 'London',
+      'country' => 'UK',
+      'rating' => 'good',
+      'user_id' => user.id
     }
   end
 
   def swappers_create_response
     {
-      'object' => {
-        'id' => Swapper.last.id,
-        'name' => 'Nomen',
-        'surname' => 'Nescio',
-        'username' => user.username,
-        'email' => 'nomennescio@email.com',
-        'phone_number' => '07712345678',
-        'date_of_birth' => '06-06-1966',
-        'address' => '6, Street',
-        'city' => 'Rome',
-        'country' => 'Italy',
-        'rating' => nil,
-        'user_id' => user.id
-      }
+      'id' => Swapper.last.id,
+      'name' => 'Nomen',
+      'surname' => 'Nescio',
+      'username' => user.username,
+      'email' => 'nomennescio@email.com',
+      'phone_number' => '07712345678',
+      'date_of_birth' => '06-06-1966',
+      'address' => '6, Street',
+      'city' => 'Rome',
+      'country' => 'Italy',
+      'rating' => nil,
+      'user_id' => user.id
     }
   end
 
   def swappers_update_response
     {
-      'object' => {
-        'id' => swapper.id,
-        'name' => 'Settimio',
-        'surname' => 'Severo',
-        'username' => user.username,
-        'email' => 'settimio@email.com',
-        'phone_number' => '07712345678',
-        'date_of_birth' => '06-06-1966',
-        'address' => '6, Street',
-        'city' => 'Rome',
-        'country' => 'Italy',
-        'rating' => 'good',
-        'user_id' => user.id
-      }
+      'id' => swapper.id,
+      'name' => 'Settimio',
+      'surname' => 'Severo',
+      'username' => user.username,
+      'email' => 'settimio@email.com',
+      'phone_number' => '07712345678',
+      'date_of_birth' => '06-06-1966',
+      'address' => '6, Street',
+      'city' => 'Rome',
+      'country' => 'Italy',
+      'rating' => 'good',
+      'user_id' => user.id
     }
   end
 end

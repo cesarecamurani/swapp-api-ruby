@@ -26,27 +26,23 @@ module AuctionsHelpers
 
   def auctions_show_response
     {
-      'object' => {
-        'id' => auction.id,
-        'product_id' => product.id,
-        'accepted_bid_id' => nil,
-        'state' => 'in_progress',
-        'expires_at' => auction.expires_at.strftime('%FT%R:%S.000Z'),
-        'swapper_id' => swapper.id
-      }
+      'id' => auction.id,
+      'product_id' => product.id,
+      'accepted_bid_id' => nil,
+      'state' => 'in_progress',
+      'expires_at' => auction.expires_at.strftime('%FT%R:%S.000Z'),
+      'swapper_id' => swapper.id
     }
   end
 
   def auctions_create_response
     {
-      'object' => {
-        'id' => Auction.last.id,
-        'product_id' => product.id,
-        'accepted_bid_id' => nil,
-        'state' => 'in_progress',
-        'expires_at' => auction.expires_at.strftime('%FT%R:%S.000Z'),
-        'swapper_id' => swapper.id
-      }
+      'id' => Auction.last.id,
+      'product_id' => product.id,
+      'accepted_bid_id' => nil,
+      'state' => 'in_progress',
+      'expires_at' => auction.expires_at.strftime('%FT%R:%S.000Z'),
+      'swapper_id' => swapper.id
     }
   end
 end

@@ -6,7 +6,7 @@ require 'spec_helper'
 RSpec.describe 'Users', type: 'request' do
   let(:user) { create(:user) }
   let(:wrong_id) { 'WRONG_ID' }
-  
+
   describe 'GET show' do
     context 'with successful response' do
       it 'returns the requested user' do
@@ -50,7 +50,7 @@ RSpec.describe 'Users', type: 'request' do
     context 'with missing params' do
       it 'returns an unprocessable entity error' do
         post '/users', params: user_missing_params
-        
+
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
@@ -70,7 +70,7 @@ RSpec.describe 'Users', type: 'request' do
       context 'with missing params' do
         it 'returns an unprocessable entity error' do
           patch "/users/#{user.id}", params: user_missing_params, headers: headers
-          
+
           expect(response).to have_http_status(:unprocessable_entity)
         end
       end
@@ -98,7 +98,7 @@ RSpec.describe 'Users', type: 'request' do
     context 'with successful response' do
       it 'returns a 204 no content response' do
         delete "/users/#{user.id}", headers: headers
- 
+
         expect(response).to have_http_status(:no_content)
       end
     end

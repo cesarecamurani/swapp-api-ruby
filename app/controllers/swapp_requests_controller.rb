@@ -22,7 +22,7 @@ class SwappRequestsController < ApplicationController
   def create
     @swapp_request = SwappRequest.new(swapp_request_params)
 
-    present_swapp_request(@swapp_request, :created) if @swapp_request.save!!
+    present_swapp_request(@swapp_request, :created) if @swapp_request.save!
   end
 
   def destroy

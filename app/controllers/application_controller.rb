@@ -10,6 +10,10 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def current_swapper
+    @current_swapper ||= @current_user.swapper
+  end
+
   def auctions
     @auctions ||= current_swapper&.auctions
   end
@@ -20,8 +24,7 @@ class ApplicationController < ActionController::Base
   end
 
   def http_token
-    authorization = request.headers['Authorization'].presence ||
-                    request['headers']['Authorization'].presence
+    authorization = request.headers['Authorization'].presence
 
     return unless authorization
 

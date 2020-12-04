@@ -34,31 +34,25 @@ module UsersHelpers
 
   def users_show_response
     {
-      'object' => {
-        'id' => user.id,
-        'username' => 'johnsmith',
-        'email' => 'johnsmith@email.com'
-      }
+      'id' => user.id,
+      'username' => 'johnsmith',
+      'email' => 'johnsmith@email.com'
     }
   end
 
   def users_create_response
     {
-      'object' => {
-        'id' => User.last.id,
-        'username' => 'testuser',
-        'email' => 'testuser@email.com'
-      }
+      'id' => User.last.id,
+      'username' => 'testuser',
+      'email' => 'testuser@email.com'
     }
   end
 
   def users_update_response
     {
-      'object' => {
-        'id' => user.id,
-        'username' => 'anotheruser',
-        'email' => 'anotheruser@email.com'
-      }
+      'id' => user.id,
+      'username' => 'anotheruser',
+      'email' => 'anotheruser@email.com'
     }
   end
 end

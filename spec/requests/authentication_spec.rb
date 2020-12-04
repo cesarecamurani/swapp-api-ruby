@@ -22,12 +22,12 @@ RSpec.describe 'Authentication', type: 'request' do
         post '/auth/login', params: invalid_credentials
 
         expect(response).to have_http_status(:unauthorized)
-        expect(error_message).to eq('Invalid credentials')
+        expect(error_message).to eq('Invalid credentials!')
       end
     end
   end
 
-  describe 'POST logout' do 
+  describe 'POST logout' do
     context 'with valid token' do
       it 'returns a logged out message' do
         post '/auth/logout', headers: headers

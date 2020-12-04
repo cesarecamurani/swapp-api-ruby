@@ -7,7 +7,7 @@ RSpec.describe 'Auctions', type: 'request' do
   let(:user) { create(:user) }
   let(:swapper) { create(:swapper, user_id: user.id) }
   let(:product) { create(:item, swapper_id: swapper.id) }
-  let(:auction) do 
+  let(:auction) do
     create(:auction, product_id: product.id, swapper_id: swapper.id)
   end
 
@@ -18,14 +18,14 @@ RSpec.describe 'Auctions', type: 'request' do
       before do
         create(:auction, swapper_id: swapper.id)
       end
-      
+
       context 'without scopes' do
         it 'returns a list of auctions' do
           expect(Auction).not_to receive(:by_swapper)
           expect(Auction).not_to receive(:by_state)
 
           get '/auctions/', headers: headers
-          
+
           expect(response).to have_http_status(:ok)
         end
       end
@@ -33,20 +33,20 @@ RSpec.describe 'Auctions', type: 'request' do
       context 'scoped by swapper id' do
         it 'returns a list of auctions scoped by received requests' do
           expect(Auction).to receive(:by_swapper).with(swapper.id)
-          
+
           get '/auctions/', params: { swapper_id: swapper.id }, headers: headers
 
-          expect(response).to have_http_status(:ok) 
+          expect(response).to have_http_status(:ok)
         end
       end
 
       context 'scoped by state' do
         it 'returns a list of auctions scoped by state' do
           expect(Auction).to receive(:by_state).with(auction.state)
-          
+
           get '/auctions/', params: { state: auction.state }, headers: headers
-   
-          expect(response).to have_http_status(:ok) 
+
+          expect(response).to have_http_status(:ok)
         end
       end
     end
@@ -60,7 +60,7 @@ RSpec.describe 'Auctions', type: 'request' do
       end
     end
   end
-  
+
   describe 'GET show' do
     context 'with successful response' do
       it 'returns the requested auction' do
@@ -105,11 +105,11 @@ RSpec.describe 'Auctions', type: 'request' do
       context 'with missing params' do
         it 'returns an unprocessable entity error' do
           post '/auctions', params: auction_missing_params, headers: headers
-          
+
           expect(response).to have_http_status(:unprocessable_entity)
         end
       end
-  
+
       context 'with missing authentication token' do
         it 'returns an unauthorized error' do
           post '/auctions', params: auction_create_params
@@ -125,7 +125,7 @@ RSpec.describe 'Auctions', type: 'request' do
     context 'with successful response' do
       it 'returns a 204 no content response' do
         delete "/auctions/#{auction.id}", headers: headers
- 
+
         expect(response).to have_http_status(:no_content)
       end
     end

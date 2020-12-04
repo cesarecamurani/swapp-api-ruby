@@ -7,13 +7,13 @@ module ApplicationHelpers
       "Authorization" => "Bearer #{token_for(user.id)}"
     }
   end
-  
+
   def response_body
     JSON.parse(response.body)
   end
 
   def state
-    response_body['object']['state']
+    response_body['state']
   end
 
   def error_message

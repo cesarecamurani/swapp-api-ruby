@@ -5,9 +5,9 @@ module ProductsHelpers
   def image
     fixture_file_upload(
       Rails.root.join(
-        'spec', 
-        'fixtures', 
-        'files', 
+        'spec',
+        'fixtures',
+        'files',
         'image.jpg'
       ),
       'image/jpeg'
@@ -52,43 +52,37 @@ module ProductsHelpers
 
   def products_show_response
     {
-      'object' => {
-        'id' => item.id,
-        'category' => 'Product::Item',
-        'title' => 'BMC Alpenchallenge AC2',
-        'description' => 'Great hybrid bike ideal for commuting',
-        'department' => 'Sport and Outdoor',
-        'up_for_auction' => false,
-        'swapper_id' => swapper.id
-      }
+      'id' => item.id,
+      'category' => 'Product::Item',
+      'title' => 'BMC Alpenchallenge AC2',
+      'description' => 'Great hybrid bike ideal for commuting',
+      'department' => 'Sport and Outdoor',
+      'up_for_auction' => false,
+      'swapper_id' => swapper.id
     }
   end
 
   def products_create_response
     {
-      'object' => {
-        'id' => Product.last.id,
-        'category' => 'Product::Item',
-        'title' => 'BMC Alpenchallenge AC2',
-        'description' => 'Great hybrid bike ideal for commuting',
-        'department' => 'Sport and Outdoor',
-        'up_for_auction' => false,
-        'swapper_id' => swapper.id
-      }
+      'id' => Product.last.id,
+      'category' => 'Product::Item',
+      'title' => 'BMC Alpenchallenge AC2',
+      'description' => 'Great hybrid bike ideal for commuting',
+      'department' => 'Sport and Outdoor',
+      'up_for_auction' => false,
+      'swapper_id' => swapper.id
     }
   end
 
   def products_update_response
     {
-      'object' => {
-        'id' => item.id,
-        'category' => 'Product::Item',
-        'title' => 'BMC Roadmachine 01',
-        'description' => 'Super fast road bike from BMC manifacturer',
-        'department' => 'Sport and Outdoor',
-        'up_for_auction' => false,
-        'swapper_id' => swapper.id
-      }
+      'id' => item.id,
+      'category' => 'Product::Item',
+      'title' => 'BMC Roadmachine 01',
+      'description' => 'Super fast road bike from BMC manifacturer',
+      'department' => 'Sport and Outdoor',
+      'up_for_auction' => false,
+      'swapper_id' => swapper.id
     }
   end
 end
