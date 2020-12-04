@@ -24,7 +24,8 @@ class ApplicationController < ActionController::Base
   end
 
   def http_token
-    authorization = request.headers['Authorization'].presence
+    authorization = request.headers['Authorization'].presence ||
+                    request['headers']['Authorization'].presence
 
     return unless authorization
 
