@@ -5,17 +5,17 @@ require 'spec_helper'
 
 RSpec.describe 'SwappRequests', type: 'request' do
   let(:user) { create(:user) }
-  
+
   let(:second_user) do
     create(:user, username: 'hans.gruber', email: 'hans.gruber@email.com')
   end
-  
+
   let(:third_user) do
     create(:user, username: 'john.mc.clane', email: 'john.mc.clane@email.com')
   end
 
   let(:swapper) { create(:swapper, user_id: user.id) }
-  
+
   let(:req_product_owner) do
     create(:swapper, user_id: second_user.id)
   end
@@ -55,14 +55,14 @@ RSpec.describe 'SwappRequests', type: 'request' do
       before do
         create(:swapp_request, swapper_id: swapper.id)
       end
-      
+
       context 'without scopes' do
         it 'returns a list of swapp_requests' do
           expect(SwappRequest).not_to receive(:by_state)
           expect(SwappRequest).to receive(:received)
 
           get '/swapp_requests/', headers: headers
-          
+
           expect(response).to have_http_status(:ok)
         end
       end
@@ -70,20 +70,20 @@ RSpec.describe 'SwappRequests', type: 'request' do
       context 'scoped by state' do
         it 'returns a list of swapp_requests scoped by state' do
           expect(SwappRequest).to receive(:by_state).with(swapp_request.state)
-          
+
           get '/swapp_requests/', params: { state: swapp_request.state }, headers: headers
-   
-          expect(response).to have_http_status(:ok) 
+
+          expect(response).to have_http_status(:ok)
         end
       end
 
       context 'scoped by received requests' do
         it 'returns a list of swapp_requests scoped by received requests' do
           expect(SwappRequest).to receive(:received).with(swapper.id)
-          
+
           get '/swapp_requests/', params: { swapper_id: swapper.id }, headers: headers
 
-          expect(response).to have_http_status(:ok) 
+          expect(response).to have_http_status(:ok)
         end
       end
     end
@@ -93,11 +93,11 @@ RSpec.describe 'SwappRequests', type: 'request' do
         get '/swapp_requests/'
 
         expect(response).to have_http_status(:unauthorized)
-        expect(error_message).to eq('Invalid or missing token')
+        expect(error_message).to eq('This token has been revoked')
       end
     end
   end
-  
+
   describe 'GET show' do
     context 'with successful response' do
       it 'returns the requested swapp_request' do
@@ -114,7 +114,7 @@ RSpec.describe 'SwappRequests', type: 'request' do
           get "/swapp_requests/#{swapp_request.id}"
 
           expect(response).to have_http_status(:unauthorized)
-          expect(error_message).to eq('Invalid or missing token')
+          expect(error_message).to eq('This token has been revoked')
         end
       end
 
@@ -150,17 +150,17 @@ RSpec.describe 'SwappRequests', type: 'request' do
       context 'with missing params' do
         it 'returns an unprocessable entity error' do
           post '/swapp_requests', params: swapp_request_missing_params, headers: headers
-          
+
           expect(response).to have_http_status(:unprocessable_entity)
         end
       end
-  
+
       context 'with missing authentication token' do
         it 'returns an unauthorized error' do
           post '/swapp_requests', params: swapp_request_create_params
 
           expect(response).to have_http_status(:unauthorized)
-          expect(error_message).to eq('Invalid or missing token')
+          expect(error_message).to eq('This token has been revoked')
         end
       end
     end
@@ -170,7 +170,7 @@ RSpec.describe 'SwappRequests', type: 'request' do
     context 'with successful response' do
       it 'returns a 204 no content response' do
         delete "/swapp_requests/#{swapp_request.id}", headers: headers
- 
+
         expect(response).to have_http_status(:no_content)
       end
     end
@@ -181,7 +181,7 @@ RSpec.describe 'SwappRequests', type: 'request' do
           delete "/swapp_requests/#{swapp_request.id}"
 
           expect(response).to have_http_status(:unauthorized)
-          expect(error_message).to eq('Invalid or missing token')
+          expect(error_message).to eq('This token has been revoked')
         end
       end
 
@@ -204,7 +204,7 @@ RSpec.describe 'SwappRequests', type: 'request' do
   end
 
   describe 'PATCH accept_swapp_request' do
-    context 'with successful response' do 
+    context 'with successful response' do
       it 'changes the swapp_request state to accepted' do
         patch "/swapp_requests/#{swapp_request.id}/accept_swapp_request",
         headers: headers
@@ -219,7 +219,7 @@ RSpec.describe 'SwappRequests', type: 'request' do
         patch "/swapp_requests/#{swapp_request.id}/accept_swapp_request"
 
         expect(response).to have_http_status(:unauthorized)
-        expect(error_message).to eq('Invalid or missing token')
+        expect(error_message).to eq('This token has been revoked')
       end
     end
 
@@ -234,7 +234,7 @@ RSpec.describe 'SwappRequests', type: 'request' do
   end
 
   describe 'PATCH reject_swapp_request' do
-    context 'with successful response' do 
+    context 'with successful response' do
       it 'changes the swapp_request state to rejected' do
         patch "/swapp_requests/#{swapp_request.id}/reject_swapp_request",
         headers: headers
@@ -249,7 +249,7 @@ RSpec.describe 'SwappRequests', type: 'request' do
         patch "/swapp_requests/#{swapp_request.id}/reject_swapp_request"
 
         expect(response).to have_http_status(:unauthorized)
-        expect(error_message).to eq('Invalid or missing token')
+        expect(error_message).to eq('This token has been revoked')
       end
     end
 

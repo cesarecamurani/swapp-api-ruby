@@ -24,10 +24,7 @@ class ApplicationController < ActionController::Base
   end
 
   def http_token
-    authorization = request.headers['Authorization'].presence ||
-                    request['headers']['Authorization'].presence
-
-    return unless authorization
+    return unless (authorization = request.headers['Authorization'].presence)
 
     @http_token ||= authorization.split(' ').last
   end

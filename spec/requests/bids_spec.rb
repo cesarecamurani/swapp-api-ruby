@@ -12,31 +12,31 @@ RSpec.describe 'Bids', type: 'request' do
       email: 'qualcuno@email.com'
     )
   end
-  
+
   let(:swapper) { create(:swapper, user_id: user.id) }
   let(:second_swapper) do
     create(
-      :swapper, 
+      :swapper,
       user_id: second_user.id
     )
   end
-  
+
   let(:product) { create(:item, swapper_id: swapper.id) }
   let(:second_product) { create(:item, swapper_id: second_swapper.id) }
 
-  let(:auction) do 
+  let(:auction) do
     create(:auction, product_id: product.id, swapper_id: swapper.id)
   end
 
-  let(:second_auction) do 
+  let(:second_auction) do
     create(:auction, product_id: second_product.id, swapper_id: second_swapper.id)
   end
 
-  let(:bid) do 
+  let(:bid) do
     create(:bid, product_id: second_product.id, auction_id: auction.id)
   end
 
-  let(:second_bid) do 
+  let(:second_bid) do
     create(:bid, product_id: second_product.id, auction_id: second_auction.id)
   end
 
@@ -47,7 +47,7 @@ RSpec.describe 'Bids', type: 'request' do
       before do
         create(:bid, auction_id: auction.id)
       end
-    
+
       it 'returns a list of bids' do
         get '/bids/summary', params: { auction_id: auction.id }, headers: headers
 
@@ -60,11 +60,11 @@ RSpec.describe 'Bids', type: 'request' do
         get '/bids/summary', params: { auction_id: auction.id }
 
         expect(response).to have_http_status(:unauthorized)
-        expect(error_message).to eq('Invalid or missing token')
+        expect(error_message).to eq('This token has been revoked')
       end
     end
   end
-  
+
   describe 'GET show' do
     context 'with successful response' do
       it 'returns the requested bid' do
@@ -81,7 +81,7 @@ RSpec.describe 'Bids', type: 'request' do
           get "/bids/#{bid.id}", params: { auction_id: auction.id }
 
           expect(response).to have_http_status(:unauthorized)
-          expect(error_message).to eq('Invalid or missing token')
+          expect(error_message).to eq('This token has been revoked')
         end
       end
 
@@ -109,26 +109,26 @@ RSpec.describe 'Bids', type: 'request' do
       context 'with missing params' do
         it 'returns an unprocessable entity error' do
           post '/bids', params: bid_missing_params, headers: headers
-          
+
           expect(response).to have_http_status(:unprocessable_entity)
         end
       end
-  
+
       context 'with missing authentication token' do
         it 'returns an unauthorized error' do
           post '/bids', params: bid_create_params
 
           expect(response).to have_http_status(:unauthorized)
-          expect(error_message).to eq('Invalid or missing token')
+          expect(error_message).to eq('This token has been revoked')
         end
       end
     end
   end
 
   describe 'PATCH accept_bid' do
-    context 'with successful response' do 
+    context 'with successful response' do
       it 'changes the bid state to accepted' do
-        patch "/bids/#{bid.id}/accept_bid", 
+        patch "/bids/#{bid.id}/accept_bid",
         params: { auction_id: auction.id },
         headers: headers
 
@@ -142,13 +142,13 @@ RSpec.describe 'Bids', type: 'request' do
         patch "/bids/#{bid.id}/accept_bid", params: { auction_id: auction.id }
 
         expect(response).to have_http_status(:unauthorized)
-        expect(error_message).to eq('Invalid or missing token')
+        expect(error_message).to eq('This token has been revoked')
       end
     end
 
     context 'with another auction\'s bid id' do
       it 'returns a not found error' do
-        patch "/bids/#{second_bid.id}/accept_bid", 
+        patch "/bids/#{second_bid.id}/accept_bid",
         params: { auction_id: second_auction.id },
         headers: headers
 

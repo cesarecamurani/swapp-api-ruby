@@ -56,7 +56,7 @@ RSpec.describe 'Auctions', type: 'request' do
         get '/auctions/'
 
         expect(response).to have_http_status(:unauthorized)
-        expect(error_message).to eq('Invalid or missing token')
+        expect(error_message).to eq('This token has been revoked')
       end
     end
   end
@@ -77,7 +77,7 @@ RSpec.describe 'Auctions', type: 'request' do
           get "/auctions/#{auction.id}"
 
           expect(response).to have_http_status(:unauthorized)
-          expect(error_message).to eq('Invalid or missing token')
+          expect(error_message).to eq('This token has been revoked')
         end
       end
 
@@ -115,7 +115,7 @@ RSpec.describe 'Auctions', type: 'request' do
           post '/auctions', params: auction_create_params
 
           expect(response).to have_http_status(:unauthorized)
-          expect(error_message).to eq('Invalid or missing token')
+          expect(error_message).to eq('This token has been revoked')
         end
       end
     end
@@ -136,7 +136,7 @@ RSpec.describe 'Auctions', type: 'request' do
           delete "/auctions/#{auction.id}"
 
           expect(response).to have_http_status(:unauthorized)
-          expect(error_message).to eq('Invalid or missing token')
+          expect(error_message).to eq('This token has been revoked')
         end
       end
 

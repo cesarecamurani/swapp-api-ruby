@@ -23,7 +23,7 @@ RSpec.describe 'Users', type: 'request' do
           get "/users/#{user.id}"
 
           expect(response).to have_http_status(:unauthorized)
-          expect(error_message).to eq('Invalid or missing token')
+          expect(error_message).to eq('This token has been revoked')
         end
       end
 
@@ -80,7 +80,7 @@ RSpec.describe 'Users', type: 'request' do
           patch "/users/#{user.id}", params: user_update_params
 
           expect(response).to have_http_status(:unauthorized)
-          expect(error_message).to eq('Invalid or missing token')
+          expect(error_message).to eq('This token has been revoked')
         end
       end
 
@@ -109,7 +109,7 @@ RSpec.describe 'Users', type: 'request' do
           delete "/users/#{user.id}"
 
           expect(response).to have_http_status(:unauthorized)
-          expect(error_message).to eq('Invalid or missing token')
+          expect(error_message).to eq('This token has been revoked')
         end
       end
 
