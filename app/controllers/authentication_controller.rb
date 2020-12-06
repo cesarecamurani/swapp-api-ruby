@@ -16,6 +16,8 @@ class AuthenticationController < ApplicationController
       raise_unauthorized_with('Invalid or missing token')
     end
 
+    UserToken.store(token: encoded_token, user_id: user.id)
+
     swapper = user&.swapper
 
     render json: auth_response(encoded_token, user.id, user.username, user.email, swapper), status: :ok

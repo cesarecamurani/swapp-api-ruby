@@ -10,7 +10,7 @@ class TokenBlacklist
       $swapp_namespace.set(
         token,
         user_id,
-        { exp: 1.hour.from_now.to_i }
+        { exp: 15.minutes.from_now.to_i }
       )
     end
   end

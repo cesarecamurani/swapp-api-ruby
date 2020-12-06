@@ -6,7 +6,7 @@ module AuthenticationHelper
   private
 
   def invalidate_token
-    raise_unauthorized_with('This token has been revoked') unless valid_token?
+    raise_unauthorized_with('Invalid or missing token') unless valid_token?
 
     TokenBlacklist.invalidate(token: http_token, user_id: decoded_token&.user_id)
 

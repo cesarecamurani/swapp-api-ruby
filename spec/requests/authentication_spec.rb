@@ -42,7 +42,7 @@ RSpec.describe 'Authentication', type: 'request' do
         post '/auth/logout'
 
         expect(response).to have_http_status(:unauthorized)
-        expect(error_message).to eq('This token has been revoked')
+        expect(error_message).to eq('Invalid or missing token')
       end
     end
   end

@@ -30,9 +30,7 @@ class ApplicationController < ActionController::Base
   end
 
   def decoded_token
-    @decoded_token ||= OpenStruct.new(
-      JsonWebToken.decode(token: http_token)
-    )
+    @decoded_token ||= OpenStruct.new(JsonWebToken.decode(token: http_token))
   end
 
   def valid_token?
